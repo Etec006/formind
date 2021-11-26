@@ -103,7 +103,7 @@ const Modulo = props => {
                       {detail?.module?.name}
                     </h5>
                     <h6 class="mb-0 text-darker pt-lg-4 font-weight-400">
-                      {detail?.module?.description}
+                      {detail?.module?.concept}
                     </h6>
 
                     <div className="inlineblockdiv pt-lg-2">
@@ -137,10 +137,13 @@ const Modulo = props => {
               </Container>
 
               <Container>
-                <div className="row-grid justify-content-between align-items-center row py-5">
-                  <div class="col-lg-6 text-left pl-lg-6">
-                    <p class="text-darker">{detail?.module?.description}</p>
-                  </div>
+                <div className="row-grid justify-content-between row py-5">
+                  <div
+                    class="col-lg-6 text-left pl-lg-6"
+                    dangerouslySetInnerHTML={{
+                      __html: detail?.module?.description,
+                    }}
+                  />
 
                   <div class="col-lg-6 pr-lg-6 border-left">
                     <ul class="uldot ul-session">

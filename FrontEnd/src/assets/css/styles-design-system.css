@@ -20,7 +20,7 @@
 
 .markdown{
     width: 50%;
-    height: 50vh;
+    height: auto;
     padding: 20px;
 }
 
@@ -122,8 +122,8 @@
 }
 
 .description-module{
-    height: 15em;
-    width: 30em;
+    /*height: 15em;*/
+    /*width: 30em;*/
 }
 
 .text-darkerer h1{

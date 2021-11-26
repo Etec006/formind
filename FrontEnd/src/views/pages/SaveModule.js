@@ -24,6 +24,7 @@ const initialModuleState = {
   name: '',
   subject: '',
   description: '',
+  concept: '',
   image: null,
 };
 
@@ -88,13 +89,14 @@ const SaveModule = props => {
     form.append('name', formData.name);
     form.append('subject', formData.subject);
     form.append('description', formData.description);
+    form.append('concept', formData.concept);
     form.append('image', formData.image);
 
     const url = moduleId ? `/module/${moduleId}` : '/module';
     const method = moduleId ? 'put' : 'post';
 
     const responseNewModule = await api[method](url, form);
-    const sendModuleIdToApi = responseNewModule.data.id;
+    const sendModuleIdToApi = responseNewModule.data.id ?? moduleId;
 
     await Promise.all(
       sessions.map(async session => {
@@ -106,7 +108,7 @@ const SaveModule = props => {
         formDataSession.append('thumbnail', session.image);
 
         if (session?.id) {
-          // await api.put(`/session/${session.id}`, formDataSession);
+          await api.put(`/session/${session.id}`, formDataSession);
         } else {
           await api.post('/session', formDataSession);
         }
@@ -154,6 +156,7 @@ const SaveModule = props => {
     setFormData({
       name: module.name,
       subject: module.subject.id,
+      concept: module.concept,
       description: module.description,
       image: null,
     });
@@ -223,7 +226,7 @@ const SaveModule = props => {
                     >
                       {subjects.map(row => (
                         <option value={row.id}>
-                          {row.name} - {row.area.name}
+                          {row.name} {/*- {row.area.name}*/}
                         </option>
                       ))}
                     </Input>
@@ -250,15 +253,31 @@ const SaveModule = props => {
 
                   <FormGroup>
                     <InputGroup className="input-group-alternative input-module description-module">
-                      <InputGroupAddon addonType="prepend"></InputGroupAddon>
+                      <InputGroupAddon addonType="prepend" />
 
                       <Input
                         className="pl-lg-3 font-weight-700"
                         placeholder="Descrição do Módulo"
                         type="text"
+                        value={formData.concept}
+                        name="concept"
+                        onChange={onChangeInput}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative input-module description-module">
+                      <InputGroupAddon addonType="prepend" />
+
+                      <Input
+                        className="pl-lg-3 font-weight-700"
+                        placeholder="Conceito do Módulo"
+                        type="textarea"
                         value={formData.description}
                         name="description"
                         onChange={onChangeInput}
+                        rows={6}
                       />
                     </InputGroup>
                   </FormGroup>
@@ -333,6 +352,7 @@ const SaveModule = props => {
                     <Input
                       type="textarea"
                       value={row.content}
+                      rows={10}
                       onChange={event =>
                         onChangeSessionInput(event, 'content', index)
                       }
