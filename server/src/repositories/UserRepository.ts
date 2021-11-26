@@ -8,12 +8,12 @@ import SessionRepository from './SessionRepository';
 class UserRepository extends Repository<User>{
 
 
-    async addRole(user: string, role: string){
+    async addRole(user: string, roleName: string){
         const userData = await this.findOne(user, {relations: ['roles']})
 
         const roleRepository = getCustomRepository(RoleRepository);
 
-        const roleData = await roleRepository.findOne(role)
+        const roleData = await roleRepository.findOne({name: roleName})
 
         userData.roles.push(roleData)
 

@@ -12,7 +12,7 @@ class AuthController{
         if(!password) return response.status(400).json({error: "Senha não informada"});
 
         const userRepository = getCustomRepository(UserRepository);
-        const user = await userRepository.findOne({email}, {select: ['id', 'email', 'password'], relations: ['roles']});
+        const user = await userRepository.findOne({email}, {select: ['id', 'email', 'password'], relations: ['roles', 'profile']});
         if(!user) return response.status(400).json({error: "Usuário não encontrado"});
 
         const matchPassword = await compare(password, user.password);
@@ -25,10 +25,7 @@ class AuthController{
            expiresIn: '1d' 
         });
 
-        return response.json({
-            token,
-            user,
-        });
+        return response.json({token});
     }
     
 }

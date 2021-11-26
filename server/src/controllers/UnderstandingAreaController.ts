@@ -5,17 +5,15 @@ import UnderstandingAreaRepository from '../repositories/UnderstandingAreaReposi
 
 class UnderstandingAreaController{
     async create(request: Request, response: Response){
-        const understandingAreaRepository = getCustomRepository(UnderstandingAreaRepository);
-
-
         const { name, color } = request.body;
 
+        if(!name) return response.status(400).json({error: "Nome não informado"});
+        if(!color) return response.status(400).json({error: "Cor não informado"});
 
+        const understandingAreaRepository = getCustomRepository(UnderstandingAreaRepository);
         const existArea = await understandingAreaRepository.findOne({name});
 
-        if(existArea){
-            return response.status(400).json({message: "A área já existe"});
-        }
+        if(existArea) return response.status(400).json({message: "A área já existe"});
 
         const area = understandingAreaRepository.create({
             name,
@@ -30,7 +28,7 @@ class UnderstandingAreaController{
     async index(request: Request, response: Response){
         const understandingAreaRepository = getCustomRepository(UnderstandingAreaRepository);
 
-        const areas = await understandingAreaRepository.find({relations: ['subjects', 'subjects.modules', 'subject.modules.sessions']});
+        const areas = await understandingAreaRepository.find({relations: ['subjects']});
 
         return response.json(areas);
     }
