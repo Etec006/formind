@@ -1,0 +1,177 @@
+.ni-large{
+    font-size: 1.5rem;
+}
+
+.borderclassic{
+    border: 2px solid black;
+}
+
+.inputhiden{
+    visibility: hidden;
+}
+
+.textarea{
+    width: 50%;
+    height: 50vh;
+    padding: 20px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.markdown{
+    width: 50%;
+    height: 50vh;
+    padding: 20px;
+}
+
+.ul-session li{
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.ul-session li:nth-child(1n+2){
+    margin-top: 25px;
+}
+
+.ul-session li p {
+    margin-bottom: 0px;
+}
+
+.ul-session .alignPlayer p:last-child{
+    font-size: 14px;
+}
+
+.markdown-align{
+    display: flex;
+}
+
+::placeholder {
+    padding: 10px;
+}
+
+.search-bar-input{
+    width: 50vh;
+}
+
+.home-large{
+    height: 100vh;
+}
+
+.home-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-margin{
+    margin-left: 20px;
+}
+
+.inlineblockdiv{
+    display: inline-flex;
+}
+
+.alignPlayer {
+    display: inline-block;
+    text-shadow: 10px 10px 3px black;
+    text-shadow: inherit;
+}
+
+.profile-image-creator img {
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
+}
+
+.profile-image-creator {
+    padding-top: 10%;
+    position: relative;
+}
+
+.profile-image-creator img {
+    max-width: 150px;
+    border-radius: 0.25rem;
+    transform: translate(-50%, -30%);
+    position: relative;
+    left: 50%;
+    transition: all 0.15s ease;
+}
+
+.profile-image-creator img:hover {
+    transform: translate(-50%, -33%);
+}
+
+.borderleft{
+    border-left: 2px;
+    border-radius: 2px;
+    border-style: inherit;
+}
+
+.rowtest{
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: -15px;
+    padding-left: -15px;
+}
+
+.alignbutton-center{
+    margin: 0 auto;
+};
+
+.input-module{
+    width: 30em;
+}
+
+.description-module{
+    height: 15em;
+    width: 30em;
+}
+
+.text-darkerer h1{
+    color: black !important;
+    font-weight: 600 !important;
+}
+
+.text-darkerer h2{
+    color: black !important;
+    font-weight: 600 !important;
+}
+
+.text-darkerer h3{
+    color: black !important;
+    font-weight: 600 !important;
+}
+
+.text-darkerer h4{
+    color: black !important;
+    font-weight: 600 !important;
+}
+
+.text-darkerer h5{
+    color: black !important;
+    font-weight: 600 !important;
+}
+
+.text-darkerer h6{
+    color: black !important;
+    font-weight: 600 !important;
+}
+
+.text-darkerer p{
+    font-size: 1rem !important;
+    font-weight: 300 !important;
+    line-height: 1.7 !important;
+    color: black !important;
+}
+
+.text-darkerer img{
+    margin: auto !important;
+    width: 45% !important;
+}
+
+.text-darkerer ul{
+    color: black !important;
+}
+
+.text-darkerer li{
+    color: black !important;
+}
