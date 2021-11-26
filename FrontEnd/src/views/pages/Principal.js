@@ -102,7 +102,7 @@ class Principal extends React.Component {
                                 {module.name}
                               </h6>
                               <p className="description mt-3">
-                                {module.description}
+                                {module.concept}
                               </p>
                               <div>
                                 <Badge color="primary" pill className="mr-1">

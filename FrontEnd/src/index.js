@@ -68,7 +68,6 @@ ReactDOM.render(
         exact
         render={props => <Session {...props} />}
       />
-      <Route path="/modulo/:id" exact render={props => <Modulo {...props} />} />
       <Route
         path="/testcreator"
         exact
@@ -91,6 +90,7 @@ ReactDOM.render(
         exact
         render={props => <SaveModule {...props} />}
       />
+      <Route path="/modulo/:id" exact render={props => <Modulo {...props} />} />
 
       <Route
         path="/editmodule/:id"

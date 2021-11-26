@@ -19,6 +19,7 @@ import SimpleFooter from 'components/Footers/SimpleFooter.js';
 import '../../assets/css/styles-design-system.css';
 import api from '../../services/api';
 import { getUploadUrl } from '../../utils';
+import { useHistory } from 'react-router-dom';
 
 const initialModuleState = {
   name: '',
@@ -40,6 +41,7 @@ const initialSessionForm = [
 
 const SaveModule = props => {
   let moduleId = props.match.params.id;
+  const history = useHistory();
   const inputFilesRef = useRef(null);
 
   const [module, setModule] = useState({});
@@ -115,19 +117,25 @@ const SaveModule = props => {
       }),
     );
 
-    setFormData(initialModuleState);
-
     alert('Módulo salvo com sucesso!');
-  }, [formData, moduleId, sessions]);
+
+    if (!moduleId) {
+      history.push(`/modulo/${sendModuleIdToApi}`);
+    }
+  }, [formData, moduleId, sessions, history]);
 
   const onAddSession = useCallback(() => {
     setSessions(oldSession => [...oldSession, initialSessionForm[0]]);
   }, []);
 
-  const onRemoveSession = useCallback(removedIndex => {
+  const onRemoveSession = useCallback(async (removedIndex, sessionId) => {
     setSessions(oldSession =>
       oldSession.filter((_, actualIndex) => actualIndex !== removedIndex),
     );
+
+    if (sessionId) {
+      await api.delete(`/session/${sessionId}`);
+    }
   }, []);
 
   useEffect(() => {
@@ -226,7 +234,7 @@ const SaveModule = props => {
                     >
                       {subjects.map(row => (
                         <option value={row.id}>
-                          {row.name} {/*- {row.area.name}*/}
+                          {row.name} - {row.area.name}
                         </option>
                       ))}
                     </Input>
@@ -317,7 +325,7 @@ const SaveModule = props => {
                     <Button
                       color="gray"
                       type="button"
-                      onClick={() => onRemoveSession(index)}
+                      onClick={() => onRemoveSession(index, row.id)}
                     >
                       Remover sessão
                     </Button>
