@@ -42,9 +42,9 @@ const Login = () => {
     const { token, user } = data;
 
     localStorage.setItem('token', token);
-    localStorage.setItem('userId', user.id);
+    // localStorage.setItem('userId', user.id);
 
-    history.push('/home');
+    history.push('/principal');
   }
 
   return (

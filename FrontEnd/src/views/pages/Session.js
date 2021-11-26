@@ -11,6 +11,7 @@ import DemoNavbarDefault from "components/Navbars/DemoNavbarDefault.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
 
 import api from "../../services/api.js";
+import { getUploadUrl } from "utils/get-upload-url.js";
 
 const alignImg = {
   margin: 'auto',
@@ -83,32 +84,20 @@ const Session = (props) => {
 
                 <div className="mt-lg-4">
                   <img
-                    src="https://i.imgur.com/uTMKqZi.png"
-                    className="img-fluid"
+                    src={getUploadUrl(session.thumbnail?.key)}
+                    className="img-fluid shadow"
                     style={alignImg}
                     alt="..."
                   />
                 </div>
 
-                <div className="mt-5 py-5 border-top border-bottom text-left">
+                <div className="mt-lg-4 border-top border-bottom text-left">
                   <p className="mb-0 text-darker font-wright-400">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam feugiat elit id porttitor faucibus. Nunc eget consectetur tellus. Nullam vel malesuada mauris, ac euismod tortor. Fusce eros lorem, pellentesque in gravida lacinia, imperdiet non dui. Integer pellentesque aliquet enim. Ut egestas maximus mi, ut porta justo tempor cursus. Nam ac purus luctus, vulputate lectus sed, sodales nunc.
-                  </p>
-                </div>
-                <Row className="pt-lg-4 mt-5 text-left markdown">
-                  <div>
-                    <textarea
-                      autoFocus
-                      className="textarea"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                    />
-                    <ReactMarkdown children={input}
+                    <ReactMarkdown children={session?.content}
                       className="markdown text-darkerer "
                     />
-
-                  </div>
-                </Row>
+                  </p>
+                </div>
                 <Row>
                   <div className="mt-lg-4 mb-lg-4">
                     <h5 className="text-darker font-weight-bold">

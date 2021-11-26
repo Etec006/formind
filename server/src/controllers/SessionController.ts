@@ -80,7 +80,7 @@ class SessionController {
 
     const sessionRepository = getCustomRepository(SessionRepository);
     const session = await sessionRepository.findOne(sessionId, {
-      relations: ["questions", "questions.answers"],
+      relations: ["questions", "questions.answers", "thumbnail"],
     });
 
     return response.json(session);

@@ -38,16 +38,10 @@ const Register = () => {
 
     console.log(name, email, password);
 
-    const form = new FormData();
-    form.append("name", name);
-    form.append("email", email);
-    form.append("password", password);
-
     const options = {
       method: 'POST',
       url: 'http://localhost:3333/user',
-      headers: { 'Content-Type': 'multipart/form-data;' },
-      data: form
+      data: { name, email, password }
     };
 
     axios.request(options).then(function (response) {
