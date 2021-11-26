@@ -1,53 +1,39 @@
-import React from "react";
+import React from 'react';
 
-// reactstrap components
-import { Button, Card, Container, Row, Col } from "reactstrap";
+import { Card, Col, Container, Row } from 'reactstrap';
 
-// core components
-import DemoNavbarDefault from "components/Navbars/DemoNavbarDefault.js";
-import SimpleFooter from "components/Footers/SimpleFooter.js";
+import DemoNavbarDefault from 'components/Navbars/DemoNavbarDefault.js';
+import SimpleFooter from 'components/Footers/SimpleFooter.js';
 
-import api from "../../services/api.js";
-
-import { Carousel } from '3d-react-carousal';
-
-let slides = [
-  <img src=" " alt="1" />,
-  <img src="https://picsum.photos/800/301/?random" alt="2" />,
-  <img src="https://picsum.photos/800/302/?random" alt="3" />,
-  <img src="https://picsum.photos/800/303/?random" alt="4" />,
-  <img src="https://picsum.photos/800/304/?random" alt="5" />];
-
+import api from '../../services/api.js';
 
 class Profile extends React.Component {
-
   constructor() {
     super();
-    this.state = { subjects: [] };
+    this.state = { subjects: [], user: {} };
   }
 
   async componentDidMount() {
+    const userId = window.localStorage.getItem('userId');
+    const response = await api.get(`/user/${userId}`);
 
-    await api.get('user', [])
-      .then(response => {
-        this.setState({ user: response.data })
-
-      });
-
-    console.log(this.state.user);
+    this.setState({ user: response.data });
 
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
+
     this.refs.main.scrollTop = 0;
   }
 
   render() {
-
-    if (!this.state.subjects) return <div>LOADING...</div>
+    if (!this.state.subjects) {
+      return <div>LOADING...</div>;
+    }
 
     return (
       <>
         <DemoNavbarDefault />
+
         <main className="profile-page" ref="main">
           <section className="section-profile-cover section-shaped my-0">
             {/* Circles background */}
@@ -60,6 +46,7 @@ class Profile extends React.Component {
               <span />
               <span />
             </div>
+
             {/* SVG separator */}
             <div className="separator separator-bottom separator-skew">
               <svg
@@ -77,6 +64,7 @@ class Profile extends React.Component {
               </svg>
             </div>
           </section>
+
           <section className="section">
             <Container>
               <Card className="card-profile shadow mt--300">
@@ -86,18 +74,19 @@ class Profile extends React.Component {
                       <div className="card-profile-image">
                         <a href="#pablo" onClick={e => e.preventDefault()}>
                           <img
-                            alt="..."
+                            alt={this.state.user.name}
                             className="rounded-circle"
                             src="https://cdn.discordapp.com/attachments/867424752222470152/892571975086661702/team-1-800x800.jpg"
                           />
                         </a>
                       </div>
                     </Col>
+
                     <Col
                       className="order-lg-3 text-lg-right align-self-lg-center"
                       lg="4"
-                    >
-                    </Col>
+                    />
+
                     <Col className="order-lg-1" lg="4">
                       <div className="card-profile-stats d-flex justify-content-center">
                         <div>
@@ -115,23 +104,15 @@ class Profile extends React.Component {
                       </div>
                     </Col>
                   </Row>
+
                   <div className="text-center mt-5">
-                    
-                      <h3>
-                        
-                      </h3>
-                    
+                    <h3 />
                   </div>
+
                   <div className="mt-5 py-5 border-top text-center">
                     <Row className="justify-content-center">
                       <Col lg="9">
-                        <p>
-                          An artist of considerable range, Ryan — the name taken
-                          by Melbourne-raised, Brooklyn-based Nick Murphy —
-                          writes, performs and records all of his own music,
-                          giving it a warm, intimate feel with a solid groove
-                          structure. An artist of considerable range.
-                        </p>
+                        <p>{this.state.user?.description}</p>
                       </Col>
                     </Row>
                   </div>
@@ -140,6 +121,7 @@ class Profile extends React.Component {
             </Container>
           </section>
         </main>
+
         <SimpleFooter />
       </>
     );
