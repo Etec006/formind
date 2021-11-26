@@ -7,23 +7,19 @@ import decoder from "../utils/decoderUser";
 
 class SubjectController{
     async create(request: Request, response: Response){
-        const subjectRepository = getCustomRepository(SubjectRepository);
-        const understandingAreaRepository = getCustomRepository(UnderstandingAreaRepository);
-
         const { name, area, description } = request.body;
 
+        if(!name) return response.status(400).json({error: "Nome não informado"});
+        if(!area) return response.status(400).json({error: "Área de conhecimento não informado"});
+        if(!description) return response.status(400).json({error: "Descrição não informado"});
 
+        const subjectRepository = getCustomRepository(SubjectRepository);
         const existSubject = await subjectRepository.findOne({name});
+        if(existSubject) return response.status(400).json({message: "A Matéria já existe"});
 
-        if(existSubject){
-            return response.status(400).json({message: "A Matéria já existe"});
-        }
-
+        const understandingAreaRepository = getCustomRepository(UnderstandingAreaRepository);
         const existArea = await understandingAreaRepository.findOne({id: area});
-
-        if(!existArea){
-            return response.status(400).json({message: "A Área não existe"});
-        }
+        if(!existArea) return response.status(400).json({message: "A Área não existe"});
 
         const subject = subjectRepository.create({
             name,
@@ -39,20 +35,12 @@ class SubjectController{
     async index(request: Request, response: Response){
         const subjectRepository = getCustomRepository(SubjectRepository);
 
-        const subjects = await subjectRepository.find({relations: ['modules', 'area']});
+        const subjects = await subjectRepository.find();
 
         return response.json(subjects);
     }
 
-    async search(request: Request, response: Response){
-        const subjectRepository = getCustomRepository(SubjectRepository);
-
-        const subjectName = request.params.name;
-
-        const subjects = await subjectRepository.searchByName(subjectName);
-
-        return response.json(subjects);
-    }
+    
 }
 
 export default new SubjectController;

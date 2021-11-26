@@ -3,16 +3,19 @@
     "host": "localhost",
     "port": 5432,
     "username": "postgres",
-    "password": "root",
-    "database": "formind",
+    "password": "toor",
+    "database": "formind2",
     "entities": [
         "./src/entities/*.ts"
     ],
     "migrations":[
-        "./src/database/migrations/*.ts"
+        "./src/database/typeorm/migrations/*.ts"
+    ],
+    "seeds": [
+        "./src/database/typeorm/seeds/*.ts"
     ],
     "cli": {
-        "migrationsDir": "./src/database/migrations"
+        "migrationsDir": "./src/database/typeorm/migrations"
     }
         
 }

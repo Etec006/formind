@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node-dev --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "build-database": "yarn typeorm migration:run && yarn seed:run"
   },
   "dependencies": {
     "@types/cors": "^2.8.12",
@@ -19,7 +21,9 @@
     "mysqli": "^3.1.4",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
+    "tsconfig-paths": "^3.12.0",
     "typeorm": "^0.2.37",
+    "typeorm-seeding": "^1.6.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

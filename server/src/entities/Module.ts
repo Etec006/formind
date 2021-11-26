@@ -20,6 +20,9 @@ class Module{
     name: string;
 
     @Column()
+    concept: string
+
+    @Column()
     description: string;
 
     @ManyToOne(() => User, user => user.modulesProduced)

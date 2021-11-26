@@ -25,8 +25,12 @@ export class CreateModule1633410629785 implements MigrationInterface {
                         type: 'varchar'
                     },
                     {
-                        name: 'description',
+                        name: 'concept',
                         type: 'varchar'
+                    },
+                    {
+                        name: 'description',
+                        type: 'text'
                     },
                     {
                         name: 'imageId',
