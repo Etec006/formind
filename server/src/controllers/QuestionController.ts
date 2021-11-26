@@ -74,12 +74,70 @@ class QuestionController{
         
     }
 
-    async index(request: Request, response: Response){
+    /* async index(request: Request, response: Response){
         const questionRepository = getCustomRepository(QuestionRepository);
 
         const questions = await questionRepository.find({relations: ['answers']});
 
         return response.json(questions);
+    } */
+
+    async update(request: Request, response: Response){
+        const { title, text, answers} = request.body
+        const questionId = request.params.id
+        const user = await decoder(request);
+
+        if(!user) return response.status(401).json({error: 'Usuário não está logado'});
+        if(!questionId) return response.status(401).json({error: 'Questão não informada'});
+        if(!title) return response.status(400).json({error: 'Titulo não informado'});
+        if(!text) return response.status(400).json({error: 'Enunciado não informado'});
+        if(!answers) return response.status(400).json({error: 'Respostas não informadas'});
+
+        if(!Array.isArray(answers)) return response.status(400).json({error: 'Respostas precisam ser um array'});
+
+        const questionRepository = getCustomRepository(QuestionRepository);
+        const existQuestion = await questionRepository.findOne(questionId, {relations:['producer']});
+        if(!existQuestion) return response.status(400).json({error: 'Questão não existe'});
+        if(existQuestion.producer.id != user.id) return response.status(400).json({error: 'Não autorizado'});
+
+        const question = questionRepository.create({
+            id: existQuestion.id,
+            title,
+            text
+        })
+        await questionRepository.save(question)
+
+        const questionAnswers = answers.map(element => {
+            element.question = existQuestion.id;
+            return element;
+        })
+        
+        const answerRepository = getCustomRepository(AnswerRepository);
+
+        const answersObjects = answerRepository.create(questionAnswers);
+
+        await answerRepository.save(answersObjects);
+
+        question.answers = answersObjects;
+
+        return response.status(201).json(question);
+    }
+
+    async delete(request: Request, response: Response){
+        const questionId = request.params.id
+        const user = await decoder(request);
+
+        if(!user) return response.status(401).json({error: 'Usuário não está logado'});
+        if(!questionId) return response.status(401).json({error: 'Questão não informada'});
+
+        const questionRepository = getCustomRepository(QuestionRepository);
+        const existQuestion = await questionRepository.findOne(questionId, {relations:['producer']});
+        if(!existQuestion) return response.status(400).json({error: 'Questão não existe'});
+        if(existQuestion.producer.id != user.id) return response.status(400).json({error: 'Não autorizado'});
+
+        await questionRepository.delete(existQuestion.id);
+
+        return response.status(201).json();
     }
 }
 

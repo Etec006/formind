@@ -20,10 +20,12 @@ import { roles } from './enums/roles';
 
 const router = Router();
 
+router.get("/user/", is([roles.DEFAULT]), UserController.get)
 router.get("/user/:id", is([roles.DEFAULT]), UserController.getById)
 router.post("/user",  UserController.create)
 router.post("/user/promote", is([roles.DEFAULT]), UserController.promote)
 router.put("/user", is([roles.DEFAULT]), multer(multerConfig).single('profile'), UserController.update)
+router.delete("/user",  UserController.delete)
 
 router.post("/auth", AuthController.create)
 
@@ -52,8 +54,10 @@ router.post("/session/:id/progress", SessionController.createProgress)
 router.put("/session/:id", multer(multerConfig).single('thumbnail'), SessionController.update)
 router.delete("/session/:id", SessionController.delete)
 
-router.get("/question", QuestionController.index)
+//router.get("/question", QuestionController.index)
 router.post("/question", QuestionController.create)
+router.put("/question/:id", QuestionController.update)
+router.delete("/question/:id", QuestionController.delete)
 
 router.post("/test", TestController.create)
 

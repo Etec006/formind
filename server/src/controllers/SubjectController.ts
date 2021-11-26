@@ -35,7 +35,7 @@ class SubjectController{
     async index(request: Request, response: Response){
         const subjectRepository = getCustomRepository(SubjectRepository);
 
-        const subjects = await subjectRepository.find();
+        const subjects = await subjectRepository.find({relations: ['area']});
 
         return response.json(subjects);
     }

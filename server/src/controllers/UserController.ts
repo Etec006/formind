@@ -93,12 +93,16 @@ class UserController{
     }
 
     async delete(request: Request, response: Response){
-        const user = await decoder(request);
-
+        const user = await decoder(request); 
         if(!user) return response.status(400).json({error: 'Usuário não está logado'})
 
         const userRepository = getCustomRepository(UserRepository);
+        const existUser = await userRepository.findOne(user.id, {relations: ['profile']})
+        if(!existUser) return response.status(400).json({error: 'Usuário não existe'})
 
+        const pictureRepository = getCustomRepository(PictureRepository);
+        if(existUser.profile) await pictureRepository.removePicture(user.profile.id)
+        
         await userRepository.delete(user.id)
 
         return response.status(200).json()
@@ -115,6 +119,16 @@ class UserController{
         await userRepository.addRole(user.id, roles.PRODUCER)
 
         return response.status(200).json()
+    }
+
+    async get(request: Request, response: Response){
+        const user = await decoder(request);
+        if(!user) return response.status(400).json({error: 'Usuário não está logado'})
+
+        const userRepository = getCustomRepository(UserRepository);
+        const userData = await userRepository.findOne(user.id)
+
+        return response.status(200).json({user: userData})
     }
 
 }
