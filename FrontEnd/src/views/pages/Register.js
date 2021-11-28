@@ -21,6 +21,9 @@ import {
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
+import api from "services/api";
+import { useHistory } from "react-router";
+import { getToken } from "utils/authenticate";
 
 const alignImg = {
   margin: 'auto',
@@ -29,28 +32,28 @@ const alignImg = {
 };
 
 const Register = () => {
+  const history = useHistory();
 
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
-  function handleCreateUser() {
+  async function handleCreateUser() {
 
-    console.log(name, email, password);
+    const {data, status} = await api.post('/user', {
+      name: name,
+      email: email,
+      password: password
+    })
 
-    const options = {
-      method: 'POST',
-      url: 'http://localhost:3333/user',
-      data: { name, email, password }
-    };
-
-    axios.request(options).then(function (response) {
-      console.log(response.data);
-    }).catch(function (error) {
-      console.error(error);
-    });
+    if(status == 201){
+      history.push('/login-page');
+      alert('Usuário cadastrado com sucesso')
+    }
 
   }
+
+  if(getToken()) history.push('/')
 
   return <>
     <DemoNavbar />

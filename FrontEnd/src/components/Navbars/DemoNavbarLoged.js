@@ -22,6 +22,7 @@ import {
   Col,
   UncontrolledTooltip
 } from "reactstrap";
+import { logout } from "utils/authenticate";
 
 const alignImg = {
     width: '10%',
@@ -51,6 +52,10 @@ class DemoNavbarDefault extends React.Component {
     });
   };
 
+  handleLogout(){
+    logout();
+  }
+
   render() {
     return (
       <>
@@ -61,12 +66,12 @@ class DemoNavbarDefault extends React.Component {
             id="navbar-main"
           >
             <Container>
-            <img
-                        src="https://cdn.discordapp.com/attachments/867424752222470152/892886428286062642/nomeFormind.png"
-                        className="img-fluid"
-                        style={alignImg}
-                        alt="..."
-                    />
+              <img
+                src="https://cdn.discordapp.com/attachments/867424752222470152/892886428286062642/nomeFormind.png"
+                className="img-fluid"
+                style={alignImg}
+                alt="..."
+              />
               <button className="navbar-toggler" id="navbar_global">
                 <span className="navbar-toggler-icon" />
               </button>
@@ -192,7 +197,8 @@ class DemoNavbarDefault extends React.Component {
                       </DropdownItem>
                       <DropdownItem divider />
                       <DropdownItem
-                        href="home"
+                        onClick={handleLogout}
+                        href="."
                       >
                         Sair
                       </DropdownItem>

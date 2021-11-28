@@ -6,6 +6,7 @@ import CardsFooter from 'components/Footers/CardsFooter.js';
 import '../../assets/css/styles-design-system.css';
 
 import api from '../../services/api.js';
+import { getToken } from 'utils/authenticate';
 
 class Principal extends React.Component {
   constructor() {
@@ -27,9 +28,7 @@ class Principal extends React.Component {
   };
 
   render() {
-    if (!this.state.modules) {
-      return <div>LOADING...</div>;
-    }
+    if (!getToken()) this.props.history.push("/");
 
     return (
       <>

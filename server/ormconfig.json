@@ -3,7 +3,7 @@
   "host": "localhost",
   "port": 5432,
   "username": "postgres",
-  "password": "root",
+  "password": "toor",
   "database": "formind",
   "entities": ["./src/entities/*.ts"],
   "migrations": ["./src/database/typeorm/migrations/*.ts"],

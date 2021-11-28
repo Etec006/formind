@@ -20,6 +20,8 @@ import SimpleFooter from 'components/Footers/SimpleFooter.js';
 
 import api from '../../services/api.js';
 import { useHistory } from 'react-router-dom';
+import { setToken } from 'utils/authenticate.js';
+import { getToken } from 'utils/authenticate.js';
 
 const alignImg = {
   margin: 'auto',
@@ -32,20 +34,29 @@ const Login = () => {
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [persistent, setPersistent] = useState(false);
 
   async function handleLogin() {
-    const { data } = await api.post('/auth', {
+    const { data, status } = await api.post('/auth', {
       email: email,
       password: password,
-    });
+    })
 
-    const { token, user } = data;
+    const { token } = data;
 
-    localStorage.setItem('token', token);
-    // localStorage.setItem('userId', user.id);
-
-    history.push('/principal');
+    if(status == 200 && token){
+      setToken(token, persistent)
+      history.push('/principal');
+    }else{
+      alert(data.error)
+    }
   }
+
+  async function handlePersistent(){
+    setPersistent(!persistent)
+  }
+
+  if(getToken()) history.push('/principal')
 
   return (
     <>
@@ -111,6 +122,8 @@ const Login = () => {
                           className="custom-control-input"
                           id=" customCheckLogin"
                           type="checkbox"
+                          checked={persistent}
+                          onChange={handlePersistent}
                         />
                         <label
                           className="custom-control-label"
@@ -136,8 +149,7 @@ const Login = () => {
                   <Col className="text-right" xs="6">
                     <a
                       className="text-light"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
+                      href="/register-page"
                     >
                       <small>Criar uma nova conta</small>
                     </a>

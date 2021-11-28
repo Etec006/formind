@@ -13,14 +13,16 @@ class AuthController{
 
         const userRepository = getCustomRepository(UserRepository);
         const user = await userRepository.findOne({email}, {select: ['id', 'email', 'password'], relations: ['roles', 'profile']});
-        if(!user) return response.status(400).json({error: "Usuário não encontrado"});
+        if(!user) return response.status(200).json({error: "Usuário não encontrado"});
 
         const matchPassword = await compare(password, user.password);
-        if(!matchPassword) return response.status(400).json({error: "Usuário ou Senha incorreta"});
+        if(!matchPassword) return response.status(200).json({error: "Usuário ou Senha incorreta"});
 
         const roles = user.roles.map(role => role.name)
 
-        const token = sign({ roles }, "c24fdfdde70947f16f6380f410ae5442ed475e20", {
+        const secret = "c24fdfdde70947f16f6380f410ae5442ed475e20";
+
+        const token = sign({ roles }, secret, {
            subject: user.id,
            expiresIn: '1d' 
         });

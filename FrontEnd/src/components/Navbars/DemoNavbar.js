@@ -140,7 +140,6 @@ class DemoNavbar extends React.Component {
                       className="btn-neutral btn-icon"
                       color="default"
                       href="login-page"
-                      target="_blank"
                     >
                       <span className="btn-inner--icon">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>
@@ -153,7 +152,6 @@ class DemoNavbar extends React.Component {
                       className="btn-neutral btn-icon"
                       color="default"
                       href="register-page"
-                      target="_blank"
                     >
                       <span className="btn-inner--icon">
                         <i class="fa fa-book" aria-hidden="true"></i>

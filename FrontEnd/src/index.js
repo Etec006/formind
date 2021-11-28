@@ -26,23 +26,28 @@ import TestCreator from 'views/pages/TestCreator.js';
 import ViewModule from 'views/pages/ViewModule.js';
 import SaveModule from 'views/pages/SaveModule.js';
 import EditSession from 'views/pages/EditSession.js';
+import { getToken } from "utils/authenticate";
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/" exact render={props => <Home {...props} />} />
-      <Route
+      <Route 
+        path="/" 
+        exact 
+        render={!getToken() ? props => <Home {...props} /> : props => <Principal {...props} />} 
+      />
+      {/* <Route
         path="/landing-page"
         exact
         render={props => <Landing {...props} />}
-      />
-      <Route path="/index" exact render={props => <Index {...props} />} />
+      /> */}
+      {/* <Route path="/index" exact render={props => <Index {...props} />} /> */}
       <Route
         path="/principal"
         exact
         render={props => <Principal {...props} />}
       />
-      <Route path="/principal" exact render={props => <Landing {...props} />} />
+      {/*  <Route path="/principal" exact render={props => <Landing {...props} />} /> */}
       <Route path="/login-page" exact render={props => <Login {...props} />} />
       <Route path="/perfil" exact render={props => <Profile {...props} />} />
       <Route
@@ -50,18 +55,18 @@ ReactDOM.render(
         exact
         render={props => <Register {...props} />}
       />
-      <Route path="/home" exact render={props => <Home {...props} />} />
+      {/* <Route path="/home" exact render={props => <Home {...props} />} /> */}
       <Route path="/creator" exact render={props => <Produtor {...props} />} />
       <Route
         path="/viewcreator"
         exact
         render={props => <ViewProdutor {...props} />}
       />
-      <Route
+      {/* <Route
         path="/slider"
         exact
         render={props => <PrincipalSlider {...props} />}
-      />
+      /> */}
       <Route path="/search" exact render={props => <Search {...props} />} />
       <Route
         path="/session/:id"
@@ -97,11 +102,11 @@ ReactDOM.render(
         exact
         render={props => <SaveModule {...props} />}
       />
-      <Route
+      {/* <Route
         path="/editsession"
         exact
         render={props => <EditSession {...props} />}
-      />
+      /> */}
       <Redirect to="/" />
     </Switch>
   </BrowserRouter>,

@@ -29,6 +29,7 @@ import {
   InputGroupText,
   InputGroup,
 } from "reactstrap";
+import { logout } from "utils/authenticate";
 
 const search = {
   border: "2px solid white",
@@ -63,7 +64,12 @@ class DemoNavbarDefault extends React.Component {
     });
   };
 
+
   render() {
+    const handleLogout = () => {
+      logout();
+    }
+
     return (
       <>
         <header className="header-global">
@@ -193,7 +199,8 @@ class DemoNavbarDefault extends React.Component {
                       </DropdownItem>
                       <DropdownItem divider />
                       <DropdownItem
-                        href="home"
+                        onClick={handleLogout}
+                        href="."
                       >
                         Sair
                       </DropdownItem>
