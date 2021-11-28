@@ -126,7 +126,7 @@ const Modulo = props => {
                     <div class="pt-lg-2">
                       <p class="text-darker font-weight-bolder">
                         Criado por{' '}
-                        <Link to="/perfil">
+                        <Link to={`/perfil/${detail?.module?.producer.id}`}>
                           <a>{detail?.module?.producer.name}</a>
                         </Link>
                       </p>

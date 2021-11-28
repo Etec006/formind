@@ -37,7 +37,7 @@ const search = {
 };
 
 const alignImg = {
-  width: '10%',
+  width: '50%',
   padding: '10px'
 };
 
@@ -79,12 +79,14 @@ class DemoNavbarDefault extends React.Component {
             id="navbar-main"
           >
             <Container>
-              <img
-                src="https://cdn.discordapp.com/attachments/867424752222470152/892886428286062642/nomeFormind.png"
-                className="img-fluid"
-                style={alignImg}
-                alt="..."
-              />
+              <a href="/">
+                <img
+                  src="https://cdn.discordapp.com/attachments/867424752222470152/892886428286062642/nomeFormind.png"
+                  className="img-fluid"
+                  style={alignImg}
+                  alt="..."
+                />
+              </a>
               <button className="navbar-toggler" id="navbar_global">
                 <span className="navbar-toggler-icon" />
               </button>
@@ -188,7 +190,7 @@ class DemoNavbarDefault extends React.Component {
                       right
                     >
                       <DropdownItem
-                        href="profile-page"
+                        href="perfil"
                       >
                         Perfil
                       </DropdownItem>
