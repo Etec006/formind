@@ -54,7 +54,7 @@ class ModuleController{
     async index(request: Request, response: Response){
         const moduleRepository = getCustomRepository(ModuleRepository);
 
-        const modules = await moduleRepository.find({relations: ['sessions', 'producer']});
+        const modules = await moduleRepository.find({relations: ['sessions', 'producer', 'subject', 'subject.area']});
 
         return response.json(modules);
     }

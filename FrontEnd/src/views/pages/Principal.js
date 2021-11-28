@@ -105,10 +105,7 @@ class Principal extends React.Component {
                               </p>
                               <div>
                                 <Badge color="primary" pill className="mr-1">
-                                  Matemática
-                                </Badge>
-                                <Badge color="primary" pill className="mr-1">
-                                  Números
+                                  {module.subject.name}
                                 </Badge>
                               </div>
                               <Button
