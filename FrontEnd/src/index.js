@@ -56,12 +56,12 @@ ReactDOM.render(
         render={props => <Register {...props} />}
       />
       {/* <Route path="/home" exact render={props => <Home {...props} />} /> */}
-      <Route path="/creator" exact render={props => <Produtor {...props} />} />
-      <Route
+      {/* <Route path="/creator" exact render={props => <Produtor {...props} />} /> */}
+      {/* <Route
         path="/viewcreator"
         exact
         render={props => <ViewProdutor {...props} />}
-      />
+      /> */}
       {/* <Route
         path="/slider"
         exact

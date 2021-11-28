@@ -14,12 +14,14 @@ import {
   InputGroup,
 } from "reactstrap";
 
-import classnames from "classnames";
 
 // core components
 import DemoNavbarDefault from "components/Navbars/DemoNavbarDefault.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
 import "../../assets/css/styles-design-system.css";
+import { getToken } from "utils/authenticate";
+import api from "services/api";
+import { getUploadUrl } from "utils";
 
 const playerimg = {
   width: '40%',
@@ -31,12 +33,19 @@ const alignImg = {
 };
 
 class ViewModule extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
+
+    const {data} = await api.get('user', {})
+
+    this.setState({user: data.user})
+
+    console.log(data);
+
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
-  state = {};
+  state = {user: {modulesProduced: []}};
   render() {
     return (
       <>
@@ -81,12 +90,12 @@ class ViewModule extends React.Component {
                           <img
                             alt="..."
                             className="rounded-circle"
-                            src="https://cdn.discordapp.com/attachments/867424752222470152/892571975086661702/team-1-800x800.jpg"
+                            src={this.state.user.profile ? getUploadUrl(this.state.user.profile.key) : "https://cdn.discordapp.com/attachments/867424752222470152/892571975086661702/team-1-800x800.jpg"}
                           />
                         </a>
                         <a href="/creator">
                           <h5 class="text-darker font-weight-600 text-center mt--5 pt-lg-2 pb-lg-1">
-                            Cleytu Rogerio
+                            {this.state.user.name}
                           </h5>
                         </a>
                       </div>
@@ -134,50 +143,24 @@ class ViewModule extends React.Component {
                           </Button>
                         </div>
                       </ul>
-                      <ul class="uldot inlineblockdiv pt-lg-3">
-                        <img
-                          src="https://i.imgur.com/8ywzGiD.png"
-                          className="img-fluid shadow"
-                          style={playerimg}
-                          alt="..."
-                        />
-                        <div class="alignPlayer">
-                          <p class="text-darker pl-lg-2 mb-2 font-weight-bolder">Curso de Matemática</p>
-                          <br />
-                          <p class="text-darker pl-lg-2 mb-0 font-weight-400">Modulos: 12</p>
-                          <p class="text-darker pl-lg-2 mb-0 font-weight-400">Duração: 4hr 30m</p>
-                        </div>
-                      </ul>
 
-                      <ul class="uldot inlineblockdiv">
-                        <img
-                          src="https://i.imgur.com/8ywzGiD.png"
-                          className="img-fluid shadow"
-                          style={playerimg}
-                          alt="..."
-                        />
-                        <div class="alignPlayer">
-                          <p class="text-darker pl-lg-2 mb-2 font-weight-bolder">Curso de Matemática</p>
-                          <br />
-                          <p class="text-darker pl-lg-2 mb-0 font-weight-400">Modulos: 12</p>
-                          <p class="text-darker pl-lg-2 mb-0 font-weight-400">Duração: 4hr 30m</p>
-                        </div>
-                      </ul>
-
-                      <ul class="uldot inlineblockdiv">
-                        <img
-                          src="https://i.imgur.com/8ywzGiD.png"
-                          className="img-fluid shadow"
-                          style={playerimg}
-                          alt="..."
-                        />
-                        <div class="alignPlayer">
-                          <p class="text-darker pl-lg-2 mb-2 font-weight-bolder">Curso de Matemática</p>
-                          <br />
-                          <p class="text-darker pl-lg-2 mb-0 font-weight-400">Modulos: 12</p>
-                          <p class="text-darker pl-lg-2 mb-0 font-weight-400">Duração: 4hr 30m</p>
-                        </div>
-                      </ul>
+                      {this.state.user.modulesProduced.map(module => {
+                        return <a href={`editmodule/${module.id}`}>
+                          <ul class="uldot inlineblockdiv pt-lg-3">
+                            <img
+                              src={getUploadUrl(module?.image?.key)}
+                              className="img-fluid shadow"
+                              style={playerimg}
+                              alt="..."
+                            />
+                            <div class="alignPlayer">
+                              <p class="text-darker pl-lg-2 mb-2 font-weight-bolder">{module.name}</p>
+                              <p class="text-darker pl-lg-2 mb-0 font-weight-400">{module.concept}</p>
+                            </div>
+                          
+                        </ul>
+                      </a>
+                      })}
                     </Col>
                   </Row>
                 </Container>

@@ -193,9 +193,14 @@ class DemoNavbarDefault extends React.Component {
                         Perfil
                       </DropdownItem>
                       <DropdownItem
-                        href="modulos"
+                        href="testprod"
                       >
-                        Modulos
+                        Virar Produtor
+                      </DropdownItem>
+                      <DropdownItem
+                        href="viewmodule"
+                      >
+                        Meus Modulos
                       </DropdownItem>
                       <DropdownItem divider />
                       <DropdownItem
