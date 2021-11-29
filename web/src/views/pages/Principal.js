@@ -95,7 +95,7 @@ class Principal extends React.Component {
                     {this.state.modules.map(module => {
                       return (
                         <Col lg="4">
-                          <Card className="card-lift--hover shadow border-0">
+                          <Card className="card-lift--hover shadow border-0" style={{margin: '12px'}}>
                             <CardBody className="py-5">
                               <h6 className="text-primary text-uppercase">
                                 {module.name}

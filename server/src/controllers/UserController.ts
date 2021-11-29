@@ -85,7 +85,7 @@ class UserController{
         if(!userId) return response.status(400).json({error: "Usuário não informado"})
 
         const userRepository = getCustomRepository(UserRepository);
-        const user = await userRepository.findOne(userId)
+        const user = await userRepository.findOne(userId, {relations: ['modulesProduced', 'modulesProduced.image', 'profile']})
 
         delete user.password;
 

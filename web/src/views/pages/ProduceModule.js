@@ -30,7 +30,7 @@ const initialSessionForm = [
   },
 ];
 
-const SaveModule = props => {
+const ProduceModule = props => {
   let moduleId = props.match.params.id;
   const history = useHistory();
   const inputFilesRef = useRef(null);
@@ -110,9 +110,9 @@ const SaveModule = props => {
 
     alert('Módulo salvo com sucesso!');
 
-    if (!moduleId) {
+    if(!moduleId) {
       history.push(`/modulo/${sendModuleIdToApi}`);
-    }
+    } 
   }, [formData, moduleId, sessions, history]);
 
   const onAddSession = useCallback(() => {
@@ -364,4 +364,4 @@ const SaveModule = props => {
   );
 };
 
-export default SaveModule;
+export default ProduceModule;

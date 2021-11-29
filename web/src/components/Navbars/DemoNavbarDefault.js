@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 // JavaScript plugin that hides or shows a component based on your scroll
 import Headroom from "headroom.js";
 import "../../assets/css/styles-design-system.css";
+import { Redirect } from 'react-router-dom';
 
 import classnames from "classnames";
 
@@ -30,6 +31,7 @@ import {
   InputGroup,
 } from "reactstrap";
 import { logout } from "utils/authenticate";
+import { getRedirectLink } from "utils/get-redirect-link";
 
 const search = {
   border: "2px solid white",
@@ -41,16 +43,26 @@ const alignImg = {
   padding: '10px'
 };
 
+
+
 class DemoNavbarDefault extends React.Component {
+  constructor() {
+    super();
+
+    this.state = { 
+      collapseClasses: "",
+      collapseOpen: false,
+      search: '',
+      redirect: false 
+    };
+  }
+  
+
   componentDidMount() {
     let headroom = new Headroom(document.getElementById("navbar-main"));
     // initialise
     headroom.init();
   }
-  state = {
-    collapseClasses: "",
-    collapseOpen: false
-  };
 
   onExiting = () => {
     this.setState({
@@ -64,14 +76,31 @@ class DemoNavbarDefault extends React.Component {
     });
   };
 
+  
+  
+
 
   render() {
     const handleLogout = () => {
       logout();
     }
 
+    const handleSearch = (event) => {
+      event.preventDefault();
+      this.setState({
+        redirect: true
+      })
+    }
+
+    const renderRedirect = () => {
+      if (this.state.redirect) {
+        return <Redirect to='/search' />
+      }
+    }
+
     return (
       <>
+        {renderRedirect()}
         <header className="header-global">
           <Navbar
             className="navbar-main navbar-transparent navbar-light headroom"
@@ -156,26 +185,31 @@ class DemoNavbarDefault extends React.Component {
                   </UncontrolledDropdown>
                 </Nav>
                 <div className="search-bar-input m-auto">
-                  <FormGroup
-                    className={classnames({
-                      focused: this.state.searchAltFocused
-                    })}
-                  >
-                    <InputGroup className="input-group-alternative input-module">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        className="font-weight-700"
-                        placeholder="Search"
-                        type="search"
-                        onFocus={e => this.setState({ searchAltFocused: true })}
-                        onBlur={e => this.setState({ searchAltFocused: false })}
-                      />
-                    </InputGroup>
-                  </FormGroup>
+                  <form onSubmit={handleSearch}>
+                    <FormGroup
+                      className={classnames({
+                        focused: this.state.searchAltFocused
+                      })}
+                    >
+                      <InputGroup className="input-group-alternative input-module">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          className="font-weight-700"
+                          placeholder="Search"
+                          type="search"
+                          value={this.state.search}
+                          onFocus={e => this.setState({ searchAltFocused: true })}
+                          onBlur={e => this.setState({ searchAltFocused: false })}
+                          
+                          onChange={e => this.setState({search: e.target.value})}
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                  </form>
                 </div>
                 <Nav className="ml-lg-auto" navbar>
                   <UncontrolledDropdown nav inNavbar>
@@ -190,17 +224,18 @@ class DemoNavbarDefault extends React.Component {
                       right
                     >
                       <DropdownItem
-                        href="perfil"
+                        href={`${getRedirectLink("perfil")}`}            
                       >
                         Perfil
                       </DropdownItem>
                       <DropdownItem
-                        href="testprod"
+                        href={`${getRedirectLink("testprod")}`}
+                        
                       >
                         Virar Produtor
                       </DropdownItem>
                       <DropdownItem
-                        href="viewmodule"
+                        href={`${getRedirectLink("producer/viewmodule")}`}
                       >
                         Meus Modulos
                       </DropdownItem>

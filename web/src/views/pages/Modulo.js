@@ -148,7 +148,8 @@ const Modulo = props => {
                   <div class="col-lg-6 pr-lg-6 border-left">
                     <ul class="uldot ul-session">
                       {detail?.module?.sessions.map(session => (
-                        <li key={session.id} className="li-clear">
+                        <a href={`/session/${session.id}`}>
+                          <li key={session.id} className="li-clear">
                           <img
                             src={getUploadUrl(session.thumbnail.key)}
                             className="img-fluid shadow"
@@ -157,13 +158,14 @@ const Modulo = props => {
                           />
 
                           <div class="alignPlayer pl-lg-2">
-                            <p class="text-darker mb-0 font-weight-bolder">
+                            <p class="text-darker mb-0 font-weight-bolder block-with-text">
                               {session.name}
                             </p>
 
-                            <p class="text-darker ">{session.content}</p>
+                            <p class="text-darker block-with-text">{session.content}</p>
                           </div>
                         </li>
+                        </a> 
                       ))}
                     </ul>
                   </div>

@@ -175,3 +175,28 @@
 .text-darkerer li{
     color: black !important;
 }
+
+.column-display{
+    display: flex;
+    flex-direction: column;
+}
+
+.block-with-text {
+    overflow: hidden;
+    position: relative;
+    line-height: 1.2em;
+    max-height: 3.5em;
+    text-align: justify;
+    word-break: break-word;
+}
+.block-with-text:before {
+    content: '...';
+    position: absolute;
+    right: 0px;
+    bottom: 0;
+    background-color: #ffffff;
+    padding: 0 0px 0 0.25em;
+}
+.wordBreak{
+    word-break: break-word;
+}

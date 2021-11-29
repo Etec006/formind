@@ -32,7 +32,7 @@ const alignImg = {
   width: '45%',
 };
 
-class ViewModule extends React.Component {
+class ProducerViewModule extends React.Component {
   async componentDidMount() {
 
     const {data} = await api.get('user', {})
@@ -135,8 +135,7 @@ class ViewModule extends React.Component {
                           <Button
                             className="pl-lg-4 pr-lg-4"
                             color="default"
-                            href="#pablo"
-                            onClick={e => e.preventDefault()}
+                            href={"/producer/module/"}
                             size="sm"
                           >
                             CRIAR
@@ -145,7 +144,7 @@ class ViewModule extends React.Component {
                       </ul>
 
                       {this.state.user.modulesProduced.map(module => {
-                        return <a href={`editmodule/${module.id}`}>
+                        return <a href={`/producer/module/${module.id}`}>
                           <ul class="uldot inlineblockdiv pt-lg-3">
                             <img
                               src={getUploadUrl(module?.image?.key)}
@@ -174,4 +173,4 @@ class ViewModule extends React.Component {
   }
 }
 
-export default ViewModule;
+export default ProducerViewModule;

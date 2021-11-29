@@ -6,18 +6,28 @@ import DemoNavbarDefault from 'components/Navbars/DemoNavbarDefault.js';
 import SimpleFooter from 'components/Footers/SimpleFooter.js';
 
 import api from '../../services/api.js';
+import { getUploadUrl } from 'utils/get-upload-url.js';
 
 class Profile extends React.Component {
   constructor() {
     super();
-    this.state = { subjects: [], user: {} };
+    this.state = { subjects: [], user: { modulesProduced: [] } };
   }
+  
 
   async componentDidMount() {
-    const userId = window.localStorage.getItem('userId');
-    const response = await api.get(`/user/${userId}`);
+    const id = this.props.match.params.id;
 
-    this.setState({ user: response.data });
+    
+
+    if(!id){
+      const response = await api.get(`/user`);
+      this.setState({ user: response.data.user });
+    }else{
+      const response = await api.get(`/user/${id}`);
+      this.setState({ user: response.data });
+    }
+    
 
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -26,6 +36,10 @@ class Profile extends React.Component {
   }
 
   render() {
+    const playerimg = {
+      width: '100%',
+    };
+
     if (!this.state.subjects) {
       return <div>LOADING...</div>;
     }
@@ -76,7 +90,7 @@ class Profile extends React.Component {
                           <img
                             alt={this.state.user.name}
                             className="rounded-circle"
-                            src="https://cdn.discordapp.com/attachments/867424752222470152/892571975086661702/team-1-800x800.jpg"
+                            src={this.state.user.profile ? getUploadUrl(this.state.user.profile.key) : "https://cdn.discordapp.com/attachments/867424752222470152/892571975086661702/team-1-800x800.jpg"}
                           />
                         </a>
                       </div>
@@ -90,23 +104,16 @@ class Profile extends React.Component {
                     <Col className="order-lg-1" lg="4">
                       <div className="card-profile-stats d-flex justify-content-center">
                         <div>
-                          <span className="heading">22</span>
+                          <span className="heading">{this.state.user.modulesProduced.length}</span>
                           <span className="description">Modulos</span>
                         </div>
-                        <div>
-                          <span className="heading">10</span>
-                          <span className="description">Comentários</span>
-                        </div>
-                        <div>
-                          <span className="heading">89</span>
-                          <span className="description">Questões</span>
-                        </div>
+                        
                       </div>
                     </Col>
                   </Row>
 
                   <div className="text-center mt-5">
-                    <h3 />
+                    <h3>{this.state.user.name}</h3>
                   </div>
 
                   <div className="mt-5 py-5 border-top text-center">
@@ -116,6 +123,29 @@ class Profile extends React.Component {
                       </Col>
                     </Row>
                   </div>
+                  <Row>
+                    {this.state.user.modulesProduced.map(module => {
+                    return (
+                      <Col lg={4}>
+                        <a href={`modulo/${module.id}`}>
+                        <ul class="uldot inlineblockdiv pt-lg-3 column-display">
+                          <div class="alignPlayer">
+                            <p class="text-darker pl-lg-2 mb-2 font-weight-bolder">{module.name}</p>
+                          </div>
+                          <img
+                            src={getUploadUrl(module?.image?.key)}
+                            className="img-fluid shadow"
+                            style={playerimg}
+                            alt="..."
+                          />
+                        
+                        </ul>
+                        </a>
+                      </Col>
+                    )
+                  })}
+                  </Row>
+                  
                 </div>
               </Card>
             </Container>
