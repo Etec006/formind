@@ -40,6 +40,7 @@ router.post("/permissions", is([roles.ADMIN]), PermissionController.create);
 router.post("/roles", is([roles.ADMIN]), RoleController.create);
 
 router.get("/areas", UnderstandingAreaController.index);
+router.get("/area/:id", UnderstandingAreaController.get);
 router.post("/areas", UnderstandingAreaController.create);
 
 router.get("/subjects", SubjectController.index);

@@ -32,6 +32,17 @@ class UnderstandingAreaController{
 
         return response.json(areas);
     }
+
+    async get(request: Request, response: Response){
+        const areaId = request.params.id;
+        if(!areaId) return response.status(400).json({error: 'Área não informada'});
+
+        const areaRepository = getCustomRepository(UnderstandingAreaRepository);
+        const existArea = await areaRepository.findOne(areaId, {relations: ['subjects']});
+        if(!existArea) return response.status(400).json({error: "Área informada não existe"});
+
+        return response.status(200).json(existArea);
+    }
 }
 
 export default new UnderstandingAreaController;
