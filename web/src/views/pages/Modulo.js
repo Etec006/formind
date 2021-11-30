@@ -14,7 +14,7 @@ import { getUploadUrl } from '../../utils';
 function ratingChanged() {}
 
 const alignImg = {
-  width: '70%',
+  width: '100%',
 };
 
 const playerimg = {
@@ -89,7 +89,7 @@ const Modulo = props => {
             <Card className="card-profile  shadow mt--200">
               <Container>
                 <div className="row-grid justify-content-between align-items-center row py-5">
-                  <div class="col-lg-6 pl-lg-6">
+                  <div class="col-lg-6 pl-5">
                     <img
                       src={getUploadUrl(detail?.module?.image?.key)}
                       className="img-fluid shadow"
@@ -102,7 +102,7 @@ const Modulo = props => {
                     <h5 class="mb-0 text-darker font-weight-bold ">
                       {detail?.module?.name}
                     </h5>
-                    <h6 class="mb-0 text-darker pt-lg-4 font-weight-400">
+                    <h6 class="mb-0 text-darker pt-lg-3 font-weight-400">
                       {detail?.module?.concept}
                     </h6>
 
@@ -137,15 +137,15 @@ const Modulo = props => {
               </Container>
 
               <Container>
-                <div className="row-grid justify-content-between row py-5">
+                <div className="row-grid justify-content-between row pb-lg-4">
                   <div
-                    class="col-lg-6 text-left pl-lg-6"
+                    class="col-lg-6 text-left pl-lg-5"
                     dangerouslySetInnerHTML={{
                       __html: detail?.module?.description,
                     }}
                   />
 
-                  <div class="col-lg-6 pr-lg-6 border-left">
+                  <div class="col-lg-6 pr-lg-6 border-left" >
                     <ul class="uldot ul-session">
                       {detail?.module?.sessions.map(session => (
                         <a href={`/session/${session.id}`}>
