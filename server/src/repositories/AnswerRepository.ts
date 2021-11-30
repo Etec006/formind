@@ -4,9 +4,11 @@ import Answer from '../entities/Answer';
 @EntityRepository(Answer)
 class AnswerRepository extends Repository<Answer>{
 
-    async findCorretAnswers(answers: []): Promise<Answer[]>{
+    async findCorretAnswers(answers: Answer[]): Promise<Answer[]>{
+        const answersId = answers.map(answer => answer.id)
+
         const correctAnswers = this.find({
-            id: In(answers),
+            id: In(answersId),
             isCorrect: true
         })
 
