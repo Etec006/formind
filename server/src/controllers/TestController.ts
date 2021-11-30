@@ -12,9 +12,22 @@ class TestController{
         const subjectRepository = getCustomRepository(SubjectRepository)
 
         const { name, subject, timing, questions } = request.body;
+
+        if(!name) return response.status(400).json({error: "Nome não informado"});
+        if(!subject) return response.status(400).json({error: "Matéria não informado"});
+        if(!timing) return response.status(400).json({error: "Tempo não informado"});
+        if(!questions) return response.status(400).json({error: "Questões não informada"});
+
+        if(!Array.isArray(questions)) return response.status(400).json({error: 'Questões precisam ser um array'});
+        
+        const existSubject = await subjectRepository.findOne(subject)
+        if(!existSubject) return response.status(400).json({error: "Matéria não existe"});
+
+        const existTest = await testRepository.find({subject: subject})
+        if(existTest) return response.status(400).json({error: "Já existe uma prova para essa matéria"});
         
         const existsQuestions = await questionRepository.findByIds(questions);
-        const existSubject = await subjectRepository.findOne(subject)
+        if(!existsQuestions) return response.status(400).json({error: "Questões informadas não são validas"});
 
         const test = testRepository.create({
             name,
@@ -26,6 +39,10 @@ class TestController{
         await testRepository.save(test);
 
         return response.status(201).json(test);
+    }
+
+    async get(request: Request, response: Response){
+        
     }
 }
 
