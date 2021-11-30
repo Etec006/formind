@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repositories/UserRepository';
 import { sign } from 'jsonwebtoken';
+import decoder from '../utils/decoderUser';
 
 class AuthController{
 
@@ -28,6 +29,13 @@ class AuthController{
         });
 
         return response.json({token});
+    }
+
+    async validate(request: Request, response: Response){
+        const user = await decoder(request);
+        if(!user) return response.status(401).json({error: 'Usuário não está logado'});
+        
+        return response.status(200).json()
     }
     
 }

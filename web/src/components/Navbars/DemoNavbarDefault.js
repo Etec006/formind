@@ -76,10 +76,6 @@ class DemoNavbarDefault extends React.Component {
     });
   };
 
-  
-  
-
-
   render() {
     const handleLogout = () => {
       logout();
@@ -93,8 +89,10 @@ class DemoNavbarDefault extends React.Component {
     }
 
     const renderRedirect = () => {
+      const search = this.state.search;
+
       if (this.state.redirect) {
-        return <Redirect to='/search' />
+        return <Redirect to={`/search/${search}`} />
       }
     }
 
@@ -203,8 +201,7 @@ class DemoNavbarDefault extends React.Component {
                           type="search"
                           value={this.state.search}
                           onFocus={e => this.setState({ searchAltFocused: true })}
-                          onBlur={e => this.setState({ searchAltFocused: false })}
-                          
+                          onBlur={e => this.setState({ searchAltFocused: false })}  
                           onChange={e => this.setState({search: e.target.value})}
                         />
                       </InputGroup>

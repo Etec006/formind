@@ -20,6 +20,7 @@ import DemoNavbarDefault from "components/Navbars/DemoNavbarDefault.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
 
 import api from "../../services/api.js";
+import { getUploadUrl } from "utils/get-upload-url.js";
 
 const playerimg = {
   width: '40%',
@@ -34,38 +35,36 @@ class Search extends React.Component {
 
   constructor() {
     super();
-    this.state = { modules: [] };
+    this.state = { modules: [], search: '' };
   }
 
   async componentDidMount() {
+    const name = await this.props.match.params.name
 
-    await api.get('modules', [])
+    this.setState({search: name})
+
+    await api.get(`module/search/${this.state.search}`, [])
       .then(response => {
         this.setState({ modules: response.data })
 
       });
+  }
 
-    // await api.get('subjects', [])
-    //   .then(response => {
-    //     this.setState({ subjects: response.data })
+  async componentDidUpdate(){
+    const name = await this.props.match.params.name
 
-    //   });
-
-    // await api.get('subjects', [])
-    //   .then(response => {
-    //     this.setState({ subjects: response.data })
-
-    //   });
-
-    console.log(this.state.subjects);
-
-    document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-    this.refs.main.scrollTop = 0;
+    if(this.state.search != this.props.match.params.name && this.state.search){
+      this.setState({search: name})
+  
+      await api.get(`module/search/${this.state.search}`, [])
+        .then(response => {
+          this.setState({ modules: response.data })
+  
+        });
+    }
   }
 
   render() {
-
     if (!this.state.modules) return <h1> - NÃO CARREGADO - </h1>
 
     return (
@@ -107,19 +106,21 @@ class Search extends React.Component {
                   <Row className="row-grid row py-5 px-3">
                     <Col class="border" lg="7">
                       {this.state.modules.map((module) => {
-                        return <ul class="uldot inlineblockdiv pt-lg-3">
-                          <img
-                            src="https://i.imgur.com/8ywzGiD.png"
-                            className="img-fluid shadow"
-                            style={playerimg}
-                            alt="..."
-                          />
-                          <div class="alignPlayer">
-                            <p class="text-darker pl-lg-2 mb-2 font-weight-bolder">{module.name}</p>
-                            <p class="text-darker pl-lg-2 mb-0 font-weight-400">Produtor: <a href="profile-page">Cleytu Rogerio</a></p>
-                            <p class="text-darker pl-lg-2 mb-0 font-weight-400">Modulos: 12</p>
-                          </div>
-                        </ul>
+                        return <a href={`/module/${module.id}`}>
+                          <ul class="uldot inlineblockdiv pt-lg-3">
+                            <img
+                              src={getUploadUrl(module?.image?.key)}
+                              className="img-fluid shadow"
+                              style={playerimg}
+                              alt="..."
+                            />
+                            <div class="alignPlayer">
+                              <p class="text-darker pl-lg-2 mb-2 font-weight-bolder">{module.name}</p>
+                              <p class="text-darker pl-lg-2 mb-0 font-weight-400">{module.concept}</p>
+                            </div>
+                          
+                          </ul>
+                      </a>  
                       })}
                     </Col>
                   </Row>

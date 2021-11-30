@@ -33,6 +33,7 @@ router.put(
 router.delete("/user", UserController.delete);
 
 router.post("/auth", AuthController.create);
+router.get("/auth", AuthController.validate);
 
 router.post("/permissions", is([roles.ADMIN]), PermissionController.create);
 

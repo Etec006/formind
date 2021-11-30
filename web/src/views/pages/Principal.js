@@ -6,7 +6,7 @@ import CardsFooter from 'components/Footers/CardsFooter.js';
 import '../../assets/css/styles-design-system.css';
 
 import api from '../../services/api.js';
-import { getToken } from 'utils/authenticate';
+import { validateToken } from 'utils/authenticate';
 
 class Principal extends React.Component {
   constructor() {
@@ -16,6 +16,10 @@ class Principal extends React.Component {
   }
 
   async componentDidMount() {
+    const isLogged = await validateToken()
+
+    if(!isLogged) this.props.history.push("/");
+
     await api.get('modules', []).then(response => {
       this.setState({ modules: response.data });
     });
@@ -28,7 +32,6 @@ class Principal extends React.Component {
   };
 
   render() {
-    if (!getToken()) this.props.history.push("/");
 
     return (
       <>

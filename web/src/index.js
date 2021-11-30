@@ -43,22 +43,12 @@ ReactDOM.render(
         exact
         render={props => <Register {...props} />}
       />
-      <Route path="/search" exact render={props => <Search {...props} />} />
+      <Route path="/search/:name" exact render={props => <Search {...props} />} />
+      <Route path="/modulo/:id" exact render={props => <Modulo {...props} />} />
       <Route
         path="/session/:id"
         exact
         render={props => <Session {...props} />}
-      />
-      <Route
-        path="/testcreator"
-        exact
-        render={props => <TestCreator {...props} />}
-      />
-      <Route path="/testprod" exact render={props => <TestProd {...props} />} />
-      <Route
-        path="/selectcontent"
-        exact
-        render={props => <SelectContent {...props} />}
       />
       <Route path="/test" exact render={props => <Test {...props} />} />
       <Route
@@ -71,12 +61,22 @@ ReactDOM.render(
         exact
         render={props => <ProduceModule {...props} />}
       />
-      <Route path="/modulo/:id" exact render={props => <Modulo {...props} />} />
 
       <Route
         path="/producer/module/:id"
         exact
         render={props => <ProduceModule {...props} />}
+      />
+      <Route path="/testprod" exact render={props => <TestProd {...props} />} />
+      <Route
+        path="/selectcontent"
+        exact
+        render={props => <SelectContent {...props} />}
+      />
+      <Route
+        path="/testcreator"
+        exact
+        render={props => <TestCreator {...props} />}
       />
       <Redirect to="/" />
     </Switch>

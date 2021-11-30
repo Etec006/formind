@@ -19,6 +19,7 @@ class ModuleRepository extends Repository<Module>{
     searchByName(moduleName: string){
         const modules = this.createQueryBuilder("module")
                             .leftJoinAndSelect("module.producer", "producer")
+                            .leftJoinAndSelect("module.image", "image")
                             .where("LOWER(module.name) like :name", {name:`%${moduleName.toLowerCase()}%`})
                             .getMany();
 
