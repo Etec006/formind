@@ -11,7 +11,7 @@ function getAreaIdByName(areas: UnderstandingArea[], name: string){
 }
 
 
-export default class CreateRoles implements Seeder {
+export default class CreateSubjects implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
     const subjectRepository = getCustomRepository(SubjectRepository);
     const areaRepository = getCustomRepository(UnderstandingAreaRepository);

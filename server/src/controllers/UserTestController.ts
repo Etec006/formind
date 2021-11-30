@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { getCustomRepository, In } from "typeorm";
+import { roles } from "../enums/roles";
+import { verifications } from "../enums/verifications";
 import AnswerRepository from "../repositories/AnswerRepository";
 import CertificateRepository from "../repositories/CertificateRepository";
 import SubjectRepository from "../repositories/SubjectRepository";
@@ -53,7 +55,7 @@ class UserTestController{
 
         if(result >= 6){
             const subject = await subjectRepository.findOne(existTest.subject);
-            const verification = await verificationRepository.findOne('44f284db-3df7-4303-9689-8c83abd0c058')
+            const verification = await verificationRepository.findOne({name: verifications.PROVA})
 
             const certificate = await certificateRepository.create(
                 {
@@ -65,7 +67,29 @@ class UserTestController{
 
             await certificateRepository.save(certificate);
 
-            await userRepository.addRole(user.id, '9b1cee8a-b803-4565-a3ec-b026dd468c11')
+            await userRepository.addRole(user.id, roles.PRODUCER)
+
+            /* const verificationRepository = getCustomRepository(VerificationRepository);
+            const verification = await verificationRepository.findOne({name: verifications.PROVA})
+
+            const certificateRepository = getCustomRepository(CertificateRepository);
+            const existCertificate = certificateRepository.findOne({subject: existSubject, user})
+            if(existCertificate) return response.status(200).json({message: 'Esse usuário já possui o certificado'})
+
+            const certificate = await certificateRepository.create(
+                {
+                    user,
+                    subject: existSubject,
+                    verifications: [verification]
+                }
+            )
+
+            await certificateRepository.save(certificate);
+            
+            const userRepository = getCustomRepository(UserRepository);
+            await userRepository.addRole(user.id, roles.PRODUCER)
+
+            return response.status(200).json({message: "Usuário promovido por não haver prova para essa matéria"}) */
         }
 
         return response.status(201).json(userTest);

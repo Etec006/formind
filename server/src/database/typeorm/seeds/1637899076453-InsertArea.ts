@@ -3,7 +3,7 @@ import { Seeder, Factory } from 'typeorm-seeding';
 import { areas } from '../../../enums/areas';
 import UnderstandingAreaRepository from '../../../repositories/UnderstandingAreaRepository';
 
-export default class CreateRoles implements Seeder {
+export default class CreateArea implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
     const areaRepository = getCustomRepository(UnderstandingAreaRepository);
 

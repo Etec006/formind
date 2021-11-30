@@ -81,6 +81,7 @@ router.post("/question", QuestionController.create);
 router.put("/question/:id", QuestionController.update);
 router.delete("/question/:id", QuestionController.delete);
 
+router.get("/test/:subjectId", TestController.get);
 router.post("/test", TestController.create);
 
 router.post("/usertest", UserTestController.create);

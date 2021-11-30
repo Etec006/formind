@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
+import { roles } from "../enums/roles";
+import { verifications } from "../enums/verifications";
+import CertificateRepository from "../repositories/CertificateRepository";
 import QuestionRepository from "../repositories/QuestionRepository";
 import SubjectRepository from "../repositories/SubjectRepository";
 import TestRepository from "../repositories/TestRepository";
+import UserRepository from "../repositories/UserRepository";
+import VerificationRepository from "../repositories/VerificationRepository";
+import decoder from "../utils/decoderUser";
 
 
 class TestController{
@@ -23,7 +29,7 @@ class TestController{
         const existSubject = await subjectRepository.findOne(subject)
         if(!existSubject) return response.status(400).json({error: "Matéria não existe"});
 
-        const existTest = await testRepository.find({subject: subject})
+        const existTest = await testRepository.findOne({subject: subject})
         if(existTest) return response.status(400).json({error: "Já existe uma prova para essa matéria"});
         
         const existsQuestions = await questionRepository.findByIds(questions);
@@ -42,7 +48,19 @@ class TestController{
     }
 
     async get(request: Request, response: Response){
-        
+        const subjectId = request.params.subjectId;
+        const user = await decoder(request);
+
+        if(!user) return response.status(401).json({error: "Usuário não informado"})
+        if(!subjectId) return response.status(400).json({error: "Matéria não informado"})
+
+        const subjectRepository = getCustomRepository(SubjectRepository)
+        const existSubject = await subjectRepository.findOne(subjectId)
+        if(!existSubject) return response.status(400).json({error: "Matéria não existe"});
+
+        const testRepository = getCustomRepository(TestRepository)
+        const existTest = await testRepository.findOne({subject: existSubject}, {relations: ['questions', 'questions.answers']})
+        return response.status(200).json(existTest)
     }
 }
 
