@@ -96,6 +96,7 @@ class TestProd extends React.Component {
 
                         </h4>
                         <div>
+                          <a href={getRedirectLink("producer/test/selectcontent")} className="text-white"> 
                           <Button
                             className="btn-icon btn-3 ml-lg-2 mt-lg-4"
                             color="darker"
@@ -104,8 +105,9 @@ class TestProd extends React.Component {
                             <span className="btn-inner--icon mr-1">
                               <i className="ni ni-badge" />
                             </span>
-                            <a href={getRedirectLink("producer/test/selectcontent")} className="text-white"> <span className="btn-inner--text">Começar</span> </a>
+                            <span className="btn-inner--text">Começar</span> 
                           </Button>
+                          </a>
                         </div>
                       </div>
                     </Col>

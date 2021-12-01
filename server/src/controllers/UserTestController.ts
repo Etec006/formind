@@ -116,7 +116,7 @@ class UserTestController{
         const userTest = await userTestRepository.findOne(testId, {relations: ['test', 'test.questions', 'test.questions.answers','answers', 'user']});
 
         if(!userTest) return response.status(400).json({error: "Prova não encontrada"});
-        if(userTest.user.id != user.id) return response.status(401).json({error: "Não Autorizado"})
+        
 
         return response.json(userTest);
     }

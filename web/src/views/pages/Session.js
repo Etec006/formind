@@ -98,40 +98,6 @@ const Session = (props) => {
                     />
                   </p>
                 </div>
-                <Row>
-                  <div className="mt-lg-4 mb-lg-4">
-                    <h5 className="text-darker font-weight-bold">
-                      Questão 1
-                    </h5>
-                    <p className="text-darker font-wright-400">
-                      <strong className="font-weight-bold mr-lg-1">
-                        (Enunciado)
-                      </strong>
-                      Curabitur iaculis facilisis ipsum eget varius.
-                      Aliquam hendrerit nulla placerat lorem pellentesque,
-                      sit amet pellentesque ex luctus.
-                    </p>
-                    <div className="text-darker">
-                      <strong>
-                        <input className="mb-lg-3" type="radio" value="Alternativa 1" name="gender" /> Alternativa 1 <br />
-                        <input className="mb-lg-3" type="radio" value="Alternativa 2" name="gender" /> Alternativa 2 <br />
-                        <input className="mb-lg-3" type="radio" value="Alternativa 3" name="gender" /> Alternativa 3 <br />
-                        <input className="mb-lg-3" type="radio" value="Alternativa 4" name="gender" /> Alternativa 4 <br />
-                        <input className="mb-lg-3" type="radio" value="Alternativa 5" name="gender" /> Alternativa 5 <br />
-                      </strong>
-                    </div>
-                    <Button
-                      className="btn-icon btn-3 mt-lg-4"
-                      color="darker"
-                      type="button"
-                    >
-                      <span className="btn-inner--icon mr-1">
-                        <i className="ni ni-send" />
-                      </span>
-                      <span className="btn-inner--text">Enviar Respostas</span>
-                    </Button>
-                  </div>
-                </Row>
               </div>
             </div>
           </Card>

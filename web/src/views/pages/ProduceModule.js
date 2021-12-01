@@ -45,6 +45,14 @@ const ProduceModule = props => {
   const onChangeInput = useCallback(event => {
     let { name, value, type } = event.target;
 
+    if(!value){
+      event.target.classList.add("invalid")
+      event.target.classList.remove("valid")
+    }else{
+      event.target.classList.add("valid")
+      event.target.classList.remove("invalid")
+    }
+
     if (type === 'file') {
       value = event.target.files[0];
       setPreviewImage(URL.createObjectURL(value));
@@ -58,6 +66,14 @@ const ProduceModule = props => {
 
   const onChangeSessionInput = useCallback((event, inputName, sessionIndex) => {
     let { value, type } = event.target;
+
+    if(!value){
+      event.target.classList.add("invalid")
+      event.target.classList.remove("valid")
+    }else{
+      event.target.classList.add("valid")
+      event.target.classList.remove("invalid")
+    }
 
     if (type === 'file') {
       value = event.target.files[0];
@@ -77,6 +93,7 @@ const ProduceModule = props => {
   }, []);
 
   const handleSaveModule = useCallback(async () => {
+    
     const form = new FormData();
 
     form.append('name', formData.name);
@@ -108,11 +125,12 @@ const ProduceModule = props => {
       }),
     );
 
-    alert('Módulo salvo com sucesso!');
+    console.log(sessions)
 
     if(!moduleId) {
       history.push(`/modulo/${sendModuleIdToApi}`);
     } 
+
   }, [formData, moduleId, sessions, history]);
 
   const onAddSession = useCallback(() => {
@@ -146,7 +164,6 @@ const ProduceModule = props => {
       const subjects = response.data.user.certificates.map(cerficate => {
         return cerficate.subject
       })
-      console.log(subjects)
       setSubjects(subjects);
     })();
   }, [moduleId]);
@@ -192,10 +209,12 @@ const ProduceModule = props => {
                   className="font-weight-700"
                   placeholder="Selecione um assunto"
                   type="select"
+                  id="subject"
                   value={formData.subject}
                   name="subject"
                   onChange={onChangeInput}
                 >
+                  <option value="" disabled selected>Matéria</option>
                   {subjects.map(row => (
                     <option value={row.id}>
                       {row.name} - {row.area.name}
@@ -216,6 +235,7 @@ const ProduceModule = props => {
                     className="font-weight-700"
                     placeholder="Nome do Módulo"
                     type="text"
+                    id="name"
                     value={formData.name}
                     name="name"
                     onChange={onChangeInput}
@@ -231,6 +251,7 @@ const ProduceModule = props => {
                     className="pl-lg-3 font-weight-700"
                     placeholder="Descrição do Módulo"
                     type="text"
+                    name="concept"
                     value={formData.concept}
                     name="concept"
                     onChange={onChangeInput}
@@ -248,6 +269,7 @@ const ProduceModule = props => {
                     type="textarea"
                     value={formData.description}
                     name="description"
+                    id="description"
                     onChange={onChangeInput}
                     rows={6}
                   />
@@ -283,7 +305,9 @@ const ProduceModule = props => {
             </Col>
           </Row>
 
-          {sessions.map((row, index) => (
+          {sessions.map((row, index) => {
+            return(
+            
             <Row className="p-3 border-top border-bottom">
               <Col md={12}>
                 <Button
@@ -320,7 +344,7 @@ const ProduceModule = props => {
                 {row.previewImage}
               </Col>
 
-              <Col md={12} className="row-grid markdown-align ">
+              <Col md={6} className="row-grid markdown-align ">
                 <Input
                   type="textarea"
                   value={row.content}
@@ -330,13 +354,16 @@ const ProduceModule = props => {
                   }
                 />
 
+                
+              </Col>
+              <Col md={6}>
                 <ReactMarkdown
                   children={row.content}
                   className="markdown text-darkerer"
                 />
               </Col>
             </Row>
-          ))}
+          )})}
 
           <Row>
             <div className="p-4">
@@ -350,14 +377,14 @@ const ProduceModule = props => {
                   <i class="fa fa-plus" aria-hidden="true"></i>
 
                   <span className="btn-inner--text text-darker">
-                        Adicionar Nova sessão
-                      </span>
+                    Adicionar Nova sessão
+                  </span>
                 </div>
               </Button>
             </div>
           </Row>
 
-          <Row className="border-top">
+          <Row className="border-top p-4">
             <Button color="gray" type="button" onClick={handleSaveModule}>
               Salvar modulo
             </Button>

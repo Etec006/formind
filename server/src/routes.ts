@@ -87,7 +87,7 @@ router.put("/question/:id", is([roles.PRODUCER]), QuestionController.update);
 router.delete("/question/:id", is([roles.PRODUCER]), QuestionController.delete);
 
 router.get("/test/:subjectId", is([roles.DEFAULT]), TestController.get);
-router.post("/test", is([roles.ADMIN]), TestController.create);
+router.post("/test", TestController.create);
 
 router.get("/usertest/:id", is([roles.DEFAULT]), UserTestController.get);
 router.post("/usertest", is([roles.DEFAULT]), UserTestController.create);

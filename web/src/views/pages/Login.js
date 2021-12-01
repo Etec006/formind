@@ -18,6 +18,7 @@ import {
 import DemoNavbar from 'components/Navbars/DemoNavbar.js';
 import SimpleFooter from 'components/Footers/SimpleFooter.js';
 import iconeFormind from 'assets/img/logo/iconeFormind.png'
+import '../../assets/css/styles-design-system.css';
 
 import api from '../../services/api.js';
 import { useHistory } from 'react-router-dom';
@@ -30,6 +31,7 @@ const alignImg = {
   padding: '10px',
 };
 
+
 const Login = () => {
   const history = useHistory();
 
@@ -38,6 +40,29 @@ const Login = () => {
   const [persistent, setPersistent] = useState(false);
 
   async function handleLogin() {
+    const errors = [];
+    const emailInput = document.getElementById("email")
+    const passwordInput = document.getElementById("password")
+    if(!email){
+      errors.push("Email não informado")
+      emailInput.classList.add("invalid")
+      emailInput.classList.remove("valid")
+    }else{
+      emailInput.classList.remove("invalid")
+      emailInput.classList.add("valid")
+    }
+    
+    if(!password){
+      errors.push("Senha não informada")
+      passwordInput.classList.remove("valid")
+      passwordInput.classList.add("invalid")
+    }else{
+      passwordInput.classList.remove("invalid")
+      passwordInput.classList.add("valid")
+    }
+
+    if(errors[0]) return
+     
     const { data, status } = await api.post('/auth', {
       email: email,
       password: password,
@@ -49,7 +74,10 @@ const Login = () => {
       setToken(token, persistent)
       history.push('/principal');
     }else{
-      alert(data.error)
+      emailInput.classList.remove("valid")
+      passwordInput.classList.remove("valid")
+      emailInput.classList.add("invalid")
+      passwordInput.classList.add("invalid")
     }
   }
 
@@ -88,7 +116,7 @@ const Login = () => {
                     </div>
                     <Form role="form">
                       <FormGroup className="mb-3">
-                        <InputGroup className="input-group-alternative">
+                        <InputGroup className="input-group-alternative" id="email">
                           <InputGroupAddon addonType="prepend">
                             <InputGroupText>
                               <i className="ni ni-email-83" />
@@ -96,6 +124,7 @@ const Login = () => {
                           </InputGroupAddon>
                           <Input
                             placeholder="Email"
+                            className="form-control"
                             type="email"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
@@ -103,7 +132,7 @@ const Login = () => {
                         </InputGroup>
                       </FormGroup>
                       <FormGroup>
-                        <InputGroup className="input-group-alternative">
+                        <InputGroup className="input-group-alternative" id="password">
                           <InputGroupAddon addonType="prepend">
                             <InputGroupText>
                               <i className="ni ni-lock-circle-open" />

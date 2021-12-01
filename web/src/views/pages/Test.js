@@ -100,14 +100,16 @@ class Test extends React.Component {
             
         }
 
-        const goToQuestionByIndex = async event => {
+        const goToQuestionByIndex = event => {
             const answers = this.state.answers
             answers[this.state.currentQuestion] = this.state.currentAnswer
-            await this.setState({answers: answers})
+            this.setState({answers: answers})
+
+            console.log(event.target)
 
             const index = event.target.value - 1 
-            await this.setState({currentAnswer: ''})
-            await this.setState({currentQuestion: index})
+            this.setState({currentAnswer: ''})
+            this.setState({currentQuestion: index})
         }
 
         const previosButton = ()=>{

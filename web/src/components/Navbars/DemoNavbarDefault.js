@@ -111,7 +111,6 @@ class DemoNavbarDefault extends React.Component {
 
     const producerOptions = () =>{
       const isProducer = this.state.user.roles.find(role => role.name == "PRODUCER")
-      console.log(isProducer)
       if(!isProducer) return (
         <DropdownItem
           href={`${getRedirectLink("producer/test")}`}

@@ -24,7 +24,7 @@ import SimpleFooter from "components/Footers/SimpleFooter.js";
 import api from "services/api";
 import { useHistory } from "react-router";
 import { getToken } from "utils/authenticate";
-
+import '../../assets/css/styles-design-system.css';
 import iconeFormind from "assets/img/logo/iconeFormind.png"
 
 const alignImg = {
@@ -41,6 +41,39 @@ const Register = () => {
   const [password, setPassword] = useState(null);
 
   async function handleCreateUser() {
+    const errors = [];
+    const nameInput = document.getElementById("name")
+    const emailInput = document.getElementById("email")
+    const passwordInput = document.getElementById("password")
+
+    if(!name){
+      errors.push("Nome não informado")
+      nameInput.classList.add("invalid")
+      nameInput.classList.remove("valid")
+    }else{
+      nameInput.classList.remove("invalid")
+      nameInput.classList.add("valid")
+    }
+
+    if(!email){
+      errors.push("Email não informado")
+      emailInput.classList.add("invalid")
+      emailInput.classList.remove("valid")
+    }else{
+      emailInput.classList.remove("invalid")
+      emailInput.classList.add("valid")
+    }
+    
+    if(!password){
+      errors.push("Senha não informada")
+      passwordInput.classList.remove("valid")
+      passwordInput.classList.add("invalid")
+    }else{
+      passwordInput.classList.remove("invalid")
+      passwordInput.classList.add("valid")
+    }
+
+    if(errors[0]) return
 
     const {data, status} = await api.post('/user', {
       name: name,
@@ -49,8 +82,10 @@ const Register = () => {
     })
 
     if(status == 201){
+      nameInput.classList.add("valid")
+      emailInput.classList.add("valid")
+      passwordInput.classList.add("valid")
       history.push('/login-page');
-      alert('Usuário cadastrado com sucesso')
     }
 
   }
@@ -87,7 +122,7 @@ const Register = () => {
                   </div>
                   <Form role="form">
                     <FormGroup>
-                      <InputGroup className="input-group-alternative mb-3">
+                      <InputGroup className="input-group-alternative mb-3" id="name">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
                             <i className="ni ni-hat-3" />
@@ -101,7 +136,7 @@ const Register = () => {
                       </InputGroup>
                     </FormGroup>
                     <FormGroup>
-                      <InputGroup className="input-group-alternative mb-3">
+                      <InputGroup className="input-group-alternative mb-3" id="email">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
                             <i className="ni ni-email-83" />
@@ -115,7 +150,7 @@ const Register = () => {
                       </InputGroup>
                     </FormGroup>
                     <FormGroup>
-                      <InputGroup className="input-group-alternative">
+                      <InputGroup className="input-group-alternative" id="password">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
                             <i className="ni ni-lock-circle-open" />

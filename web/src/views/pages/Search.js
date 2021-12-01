@@ -106,7 +106,7 @@ class Search extends React.Component {
                   <Row className="row-grid row py-5 px-3">
                     <Col class="border" lg="7">
                       {this.state.modules.map((module) => {
-                        return <a href={`/module/${module.id}`}>
+                        return <a href={`/modulo/${module.id}`}>
                           <ul class="uldot inlineblockdiv pt-lg-3">
                             <img
                               src={getUploadUrl(module?.image?.key)}
