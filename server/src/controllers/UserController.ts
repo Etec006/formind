@@ -126,7 +126,7 @@ class UserController{
         if(!user) return response.status(400).json({error: 'Usuário não está logado'})
 
         const userRepository = getCustomRepository(UserRepository);
-        const userData = await userRepository.findOne(user.id, {relations: ['modulesProduced', 'modulesProduced.image', 'profile']})
+        const userData = await userRepository.findOne(user.id, {relations: ['modulesProduced', 'modulesProduced.image', 'profile', 'certificates', 'certificates.subject', 'certificates.subject.area', 'roles']})
 
         return response.status(200).json({user: userData})
     }

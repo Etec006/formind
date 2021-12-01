@@ -20,7 +20,7 @@ import TestSelectContent from 'views/pages/TestSelectContent.js';
 import TestCreator from 'views/pages/TestCreator.js';
 import ProducerViewModule from 'views/pages/ProducerViewModule.js';
 import ProduceModule from 'views/pages/ProduceModule.js';
-import { getToken } from "utils/authenticate";
+import { getToken, validateToken } from "utils/authenticate";
 import TestResult from 'views/pages/TestResult';
 
 ReactDOM.render(

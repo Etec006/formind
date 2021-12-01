@@ -79,6 +79,9 @@ class DemoNavbarDefault extends React.Component {
   render() {
     const handleLogout = () => {
       logout();
+      this.setState({
+        redirect: true
+      })
     }
 
     const handleSearch = (event) => {
@@ -89,11 +92,13 @@ class DemoNavbarDefault extends React.Component {
     }
 
     const renderRedirect = () => {
+      
       const search = this.state.search;
 
       if (this.state.redirect) {
         return <Redirect to={`/search/${search}`} />
       }
+      
     }
 
     return (
@@ -239,7 +244,7 @@ class DemoNavbarDefault extends React.Component {
                       <DropdownItem divider />
                       <DropdownItem
                         onClick={handleLogout}
-                        href="."
+                        href="/"
                       >
                         Sair
                       </DropdownItem>

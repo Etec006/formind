@@ -30,34 +30,36 @@ router.put(
   multer(multerConfig).single("profile"),
   UserController.update
 );
-router.delete("/user", UserController.delete);
+router.delete("/user", is([roles.DEFAULT]), UserController.delete);
 
 router.post("/auth", AuthController.create);
-router.get("/auth", AuthController.validate);
+router.get("/auth", is([roles.DEFAULT]), AuthController.validate);
 
 router.post("/permissions", is([roles.ADMIN]), PermissionController.create);
 
 router.post("/roles", is([roles.ADMIN]), RoleController.create);
 
-router.get("/areas", UnderstandingAreaController.index);
-router.get("/area/:id", UnderstandingAreaController.get);
-router.post("/areas", UnderstandingAreaController.create);
+router.get("/areas", is([roles.DEFAULT]), UnderstandingAreaController.index);
+router.get("/area/:id", is([roles.DEFAULT]), UnderstandingAreaController.get);
+router.post("/areas", is([roles.ADMIN]), UnderstandingAreaController.create);
 
-router.get("/subjects", SubjectController.index);
-router.post("/subjects", SubjectController.create);
+router.get("/subjects", is([roles.DEFAULT]), SubjectController.index);
+router.post("/subjects", is([roles.ADMIN]), SubjectController.create);
 
-router.get("/modules", ModuleController.index);
-router.get("/module/search/", ModuleController.search);
-router.get("/module/search/:name", ModuleController.search);
-router.get("/module/:id", storeHistory(), ModuleController.get);
+router.get("/modules", is([roles.DEFAULT]), ModuleController.index);
+router.get("/module/search/", is([roles.DEFAULT]), ModuleController.search);
+router.get("/module/search/:name", is([roles.DEFAULT]), ModuleController.search);
+router.get("/module/:id", is([roles.DEFAULT]), storeHistory(), ModuleController.get);
 router.post(
   "/module",
+  is([roles.PRODUCER]),
   multer(multerConfig).single("image"),
   ModuleController.create
 );
-router.post("/module/:id/rating", ModuleController.rating);
+router.post("/module/:id/rating", is([roles.DEFAULT]), ModuleController.rating);
 router.put(
   "/module/:id",
+  is([roles.PRODUCER]),
   multer(multerConfig).single("image"),
   ModuleController.update
 );
@@ -65,28 +67,30 @@ router.delete("/module/:id", ModuleController.delete);
 
 router.post(
   "/session",
+  is([roles.PRODUCER]),
   multer(multerConfig).single("thumbnail"),
   SessionController.create
 );
-router.get("/session/:id", SessionController.get);
-router.post("/session/:id/progress", SessionController.createProgress);
+router.get("/session/:id", is([roles.DEFAULT]), SessionController.get);
+router.post("/session/:id/progress", is([roles.DEFAULT]), SessionController.createProgress);
 router.put(
   "/session/:id",
+  is([roles.PRODUCER]),
   multer(multerConfig).single("thumbnail"),
   SessionController.update
 );
-router.delete("/session/:id", SessionController.delete);
+router.delete("/session/:id", is([roles.PRODUCER]), SessionController.delete);
 
 //router.get("/question", QuestionController.index)
-router.post("/question", QuestionController.create);
-router.put("/question/:id", QuestionController.update);
-router.delete("/question/:id", QuestionController.delete);
+router.post("/question", is([roles.PRODUCER]), QuestionController.create);
+router.put("/question/:id", is([roles.PRODUCER]), QuestionController.update);
+router.delete("/question/:id", is([roles.PRODUCER]), QuestionController.delete);
 
-router.get("/test/:subjectId", TestController.get);
-router.post("/test", TestController.create);
+router.get("/test/:subjectId", is([roles.DEFAULT]), TestController.get);
+router.post("/test", is([roles.ADMIN]), TestController.create);
 
-router.get("/usertest/:id", UserTestController.get);
-router.post("/usertest", UserTestController.create);
+router.get("/usertest/:id", is([roles.DEFAULT]), UserTestController.get);
+router.post("/usertest", is([roles.DEFAULT]), UserTestController.create);
 
 router.post(
   "/picture",

@@ -142,8 +142,12 @@ const ProduceModule = props => {
 
   useEffect(() => {
     (async () => {
-      const response = await api.get(`/subjects`);
-      setSubjects(response.data);
+      const response = await api.get(`/user`);
+      const subjects = response.data.user.certificates.map(cerficate => {
+        return cerficate.subject
+      })
+      console.log(subjects)
+      setSubjects(subjects);
     })();
   }, [moduleId]);
 

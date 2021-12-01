@@ -6,6 +6,7 @@ import CardsFooter from 'components/Footers/CardsFooter.js';
 import '../../assets/css/styles-design-system.css';
 
 import api from '../../services/api.js';
+import { getToken } from 'utils/authenticate';
 import { validateToken } from 'utils/authenticate';
 
 class Principal extends React.Component {

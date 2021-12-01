@@ -107,12 +107,16 @@ class UserTestController{
 
     async get(request: Request, response: Response){
         const testId = request.params.id
+        const user = await decoder(request)
+
+        if(!user) return response.status(400).json({error: "Usuário não logado"})
         if(!testId) return response.status(400).json({error: "Id da prova não informado"})
 
         const userTestRepository = getCustomRepository(UserTestRepository);
-        const userTest = await userTestRepository.findOne(testId, {relations: ['test', 'test.questions', 'test.questions.answers','answers']});
+        const userTest = await userTestRepository.findOne(testId, {relations: ['test', 'test.questions', 'test.questions.answers','answers', 'user']});
 
         if(!userTest) return response.status(400).json({error: "Prova não encontrada"});
+        if(userTest.user.id != user.id) return response.status(401).json({error: "Não Autorizado"})
 
         return response.json(userTest);
     }

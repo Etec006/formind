@@ -60,6 +60,7 @@ class TestController{
 
         const testRepository = getCustomRepository(TestRepository)
         const existTest = await testRepository.findOne({subject: existSubject}, {relations: ['questions', 'questions.answers']})
+        if(!existTest) return response.status(200).json()
 
         existTest.questions.forEach(question => {
             question.answers.forEach(

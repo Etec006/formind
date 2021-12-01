@@ -4,6 +4,7 @@ import ModuleClassificationRepository from "../repositories/ModuleClassification
 import ModuleRepository from "../repositories/ModuleRepository";
 import PictureRepository from "../repositories/PictureRepository";
 import SubjectRepository from "../repositories/SubjectRepository";
+import UserRepository from "../repositories/UserRepository";
 import decoder from "../utils/decoderUser";
 
 
@@ -27,6 +28,18 @@ class ModuleController{
         const subjectRepository = getCustomRepository(SubjectRepository);
         const existSubject = await subjectRepository.findOne({id: subject});
         if(!existSubject) return response.status(400).json({message: "A matéria não existe"});
+
+        const userRepository = getCustomRepository(UserRepository)
+        const userData = await userRepository.findOne(user.id, {relations: ['certificates', 'certificates.subject']})
+        
+        let isCertificate = false;
+        userData.certificates.forEach(certificate => {
+            if(certificate.subject.id == existSubject.id) isCertificate = true
+        })
+
+        if(!isCertificate) return response.status(401).json({message: "Não Autorizado"});
+
+
 
         const pictureRepository = getCustomRepository(PictureRepository);
         const imagePicture = pictureRepository.create({

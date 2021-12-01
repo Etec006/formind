@@ -10,6 +10,7 @@ import '../../assets/css/styles-design-system.css';
 
 import api from '../../services/api.js';
 import { getUploadUrl } from '../../utils';
+import { validateToken } from 'utils/authenticate';
 
 function ratingChanged() {}
 
@@ -48,9 +49,6 @@ const Modulo = props => {
     [history, id],
   );
 
-  if (loading) {
-    return <p>CARREGANDO FILHO, ESPERA!!!</p>;
-  }
 
   return (
     <>
