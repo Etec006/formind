@@ -12,7 +12,7 @@ class Answer{
     @Column()
     text: string;
 
-    @Column({select: false})
+    @Column()
     isCorrect: boolean;
 
     @ManyToOne(() => Question, question => question.answers)

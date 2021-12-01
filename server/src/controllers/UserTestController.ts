@@ -104,6 +104,18 @@ class UserTestController{
 
         return response.status(201).json(userTest);
     }
+
+    async get(request: Request, response: Response){
+        const testId = request.params.id
+        if(!testId) return response.status(400).json({error: "Id da prova não informado"})
+
+        const userTestRepository = getCustomRepository(UserTestRepository);
+        const userTest = await userTestRepository.findOne(testId, {relations: ['test', 'test.questions', 'test.questions.answers','answers']});
+
+        if(!userTest) return response.status(400).json({error: "Prova não encontrada"});
+
+        return response.json(userTest);
+    }
 }
 
 export default new UserTestController
