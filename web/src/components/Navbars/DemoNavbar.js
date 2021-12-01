@@ -22,6 +22,8 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 
+import nomeFormind from "../../assets/img/logo/nomeFormind.png"
+
 const alignImg = {
   width: '10%',
   padding: '10px'
@@ -61,11 +63,11 @@ class DemoNavbar extends React.Component {
           >
             <Container>
             <img
-                        src="https://cdn.discordapp.com/attachments/867424752222470152/892886428286062642/nomeFormind.png"
-                        className="img-fluid"
-                        style={alignImg}
-                        alt="..."
-                    />
+                src={nomeFormind}
+                className="img-fluid"
+                style={alignImg}
+                alt="..."
+            />
               <button className="navbar-toggler" id="navbar_global">
                 <span className="navbar-toggler-icon" />
               </button>

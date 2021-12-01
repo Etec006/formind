@@ -25,6 +25,8 @@ import api from "services/api";
 import { useHistory } from "react-router";
 import { getToken } from "utils/authenticate";
 
+import iconeFormind from "assets/img/logo/iconeFormind.png"
+
 const alignImg = {
   margin: 'auto',
   width: '50%',
@@ -74,7 +76,7 @@ const Register = () => {
             <Col lg="5">
               <Card className="bg-secondary shadow border-0">
                 <img
-                  src="https://cdn.discordapp.com/attachments/867424752222470152/892527803004764201/iconeFormind.png"
+                  src={iconeFormind}
                   className="img-fluid"
                   style={alignImg}
                   alt="..."

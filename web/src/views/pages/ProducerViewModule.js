@@ -23,6 +23,8 @@ import { getToken } from "utils/authenticate";
 import api from "services/api";
 import { getUploadUrl } from "utils";
 
+import defaultUser from "assets/img/logo/defaultUser.jpg"
+
 const playerimg = {
   width: '40%',
 };
@@ -90,7 +92,7 @@ class ProducerViewModule extends React.Component {
                           <img
                             alt="..."
                             className="rounded-circle"
-                            src={this.state.user.profile ? getUploadUrl(this.state.user.profile.key) : "https://cdn.discordapp.com/attachments/867424752222470152/892571975086661702/team-1-800x800.jpg"}
+                            src={this.state.user.profile ? getUploadUrl(this.state.user.profile.key) : defaultUser}
                           />
                         </a>
                         <a href="/creator">

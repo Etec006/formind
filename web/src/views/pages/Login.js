@@ -17,6 +17,7 @@ import {
 
 import DemoNavbar from 'components/Navbars/DemoNavbar.js';
 import SimpleFooter from 'components/Footers/SimpleFooter.js';
+import iconeFormind from 'assets/img/logo/iconeFormind.png'
 
 import api from '../../services/api.js';
 import { useHistory } from 'react-router-dom';
@@ -76,7 +77,7 @@ const Login = () => {
               <Col lg="5">
                 <Card className="bg-secondary shadow border-0">
                   <img
-                    src="https://cdn.discordapp.com/attachments/867424752222470152/892527803004764201/iconeFormind.png"
+                    src={iconeFormind}
                     className="img-fluid"
                     style={alignImg}
                     alt="..."

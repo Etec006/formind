@@ -22,6 +22,9 @@ import {
   Col,
   UncontrolledTooltip
 } from "reactstrap";
+
+import nomeFormind from "assets/img/logo/nomeFormind.png"
+
 import { logout } from "utils/authenticate";
 
 const alignImg = {
@@ -67,7 +70,7 @@ class DemoNavbarDefault extends React.Component {
           >
             <Container>
               <img
-                src="https://cdn.discordapp.com/attachments/867424752222470152/892886428286062642/nomeFormind.png"
+                src={nomeFormind}
                 className="img-fluid"
                 style={alignImg}
                 alt="..."

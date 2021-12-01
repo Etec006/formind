@@ -8,6 +8,8 @@ import SimpleFooter from 'components/Footers/SimpleFooter.js';
 import api from '../../services/api.js';
 import { getUploadUrl } from 'utils/get-upload-url.js';
 
+import defaultUser from "assets/img/logo/defaultUser.jpg"
+
 class Profile extends React.Component {
   constructor() {
     super();
@@ -90,7 +92,7 @@ class Profile extends React.Component {
                           <img
                             alt={this.state.user.name}
                             className="rounded-circle"
-                            src={this.state.user.profile ? getUploadUrl(this.state.user.profile.key) : "https://cdn.discordapp.com/attachments/867424752222470152/892571975086661702/team-1-800x800.jpg"}
+                            src={this.state.user.profile ? getUploadUrl(this.state.user.profile.key) : defaultUser}
                           />
                         </a>
                       </div>

@@ -19,6 +19,9 @@ import {
   Col
 } from "reactstrap";
 
+import nomeFormind from "assets/img/logo/nomeFormind.png"
+import cabecaFormind from "assets/img/logo/cabecaFormind.png"
+
 // core components
 import CardsFooter from "components/Footers/CardsFooter.js";
 import "../../assets/css/styles-design-system.css";
@@ -47,13 +50,13 @@ class Home extends React.Component {
               <Container className="py-lg-md d-flex">
                 <div className="col px-0 mt-auto mb-auto">
                     <img
-                        src="https://cdn.discordapp.com/attachments/867424752222470152/892886428286062642/nomeFormind.png"
+                        src={nomeFormind}
                         className="img-fluid"
                         style={alignImg}
                         alt="..."
                     /> <br/>
                     <img
-                        src="https://cdn.discordapp.com/attachments/867424752222470152/892892324806398012/cabecaFormind.png"
+                        src={cabecaFormind}
                         className="img-fluid"
                         style={alignImg}
                         alt="..."

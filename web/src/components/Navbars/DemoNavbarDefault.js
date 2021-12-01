@@ -30,6 +30,9 @@ import {
   InputGroupText,
   InputGroup,
 } from "reactstrap";
+
+import nomeFormind from "assets/img/logo/nomeFormind.png"
+
 import { logout } from "utils/authenticate";
 import { getRedirectLink } from "utils/get-redirect-link";
 import api from "services/api";
@@ -142,7 +145,7 @@ class DemoNavbarDefault extends React.Component {
             <Container>
               <a href="/">
                 <img
-                  src="https://cdn.discordapp.com/attachments/867424752222470152/892886428286062642/nomeFormind.png"
+                  src={nomeFormind}
                   className="img-fluid"
                   style={alignImg}
                   alt="..."
