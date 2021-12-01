@@ -111,14 +111,14 @@ class DemoNavbarDefault extends React.Component {
       console.log(isProducer)
       if(!isProducer) return (
         <DropdownItem
-          href={`${getRedirectLink("/producer/test")}`}
+          href={`${getRedirectLink("producer/test")}`}
         >
           Virar Produtor
         </DropdownItem>
       )
       return (<>
         <DropdownItem
-          href={`${getRedirectLink("/producer/test/selectcontent")}`}
+          href={`${getRedirectLink("producer/test/selectcontent")}`}
         >
           Realizar Prova
         </DropdownItem>
