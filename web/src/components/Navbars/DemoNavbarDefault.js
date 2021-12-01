@@ -32,6 +32,7 @@ import {
 } from "reactstrap";
 import { logout } from "utils/authenticate";
 import { getRedirectLink } from "utils/get-redirect-link";
+import api from "services/api";
 
 const search = {
   border: "2px solid white",
@@ -53,12 +54,16 @@ class DemoNavbarDefault extends React.Component {
       collapseClasses: "",
       collapseOpen: false,
       search: '',
-      redirect: false 
+      redirect: false,
+      user: {roles: [{name:''}]} 
     };
   }
   
 
-  componentDidMount() {
+  async componentDidMount() {
+    const {data} = await api.get('user', {})
+    this.setState({user: data.user})
+
     let headroom = new Headroom(document.getElementById("navbar-main"));
     // initialise
     headroom.init();
@@ -99,6 +104,30 @@ class DemoNavbarDefault extends React.Component {
         return <Redirect to={`/search/${search}`} />
       }
       
+    }
+
+    const producerOptions = () =>{
+      const isProducer = this.state.user.roles.find(role => role.name == "PRODUCER")
+      console.log(isProducer)
+      if(!isProducer) return (
+        <DropdownItem
+          href={`${getRedirectLink("/producer/test")}`}
+        >
+          Virar Produtor
+        </DropdownItem>
+      )
+      return (<>
+        <DropdownItem
+          href={`${getRedirectLink("/producer/test/selectcontent")}`}
+        >
+          Realizar Prova
+        </DropdownItem>
+        <DropdownItem
+          href={`${getRedirectLink("producer/viewmodule")}`}
+        >
+          Meus Modulos
+        </DropdownItem>
+      </>)
     }
 
     return (
@@ -230,17 +259,7 @@ class DemoNavbarDefault extends React.Component {
                       >
                         Perfil
                       </DropdownItem>
-                      <DropdownItem
-                        href={`${getRedirectLink("producer/test")}`}
-                        
-                      >
-                        Virar Produtor
-                      </DropdownItem>
-                      <DropdownItem
-                        href={`${getRedirectLink("producer/viewmodule")}`}
-                      >
-                        Meus Modulos
-                      </DropdownItem>
+                      {producerOptions()}
                       <DropdownItem divider />
                       <DropdownItem
                         onClick={handleLogout}
