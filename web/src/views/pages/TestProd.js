@@ -16,6 +16,8 @@ import {
 
 import classnames from "classnames";
 
+import lapis from "assets/img/logo/lapis.png"
+
 // core components
 import DemoNavbarDefault from "components/Navbars/DemoNavbarDefault.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
@@ -78,7 +80,7 @@ class TestProd extends React.Component {
                     <Col class="border" lg="6">
                       <div className="row-grid justify-content-md-center row pt-lg-3">
                         <img
-                          src="https://i.imgur.com/2ouPCRc.png"
+                          src={lapis}
                           className="img-fluid"
                           style={alignImg}
                           alt="..."

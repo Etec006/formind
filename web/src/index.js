@@ -17,7 +17,6 @@ import Session from 'views/pages/Session.js';
 import Test from 'views/pages/Test.js';
 import TestProd from 'views/pages/TestProd.js';
 import TestSelectContent from 'views/pages/TestSelectContent.js';
-import TestCreator from 'views/pages/TestCreator.js';
 import ProducerViewModule from 'views/pages/ProducerViewModule.js';
 import ProduceModule from 'views/pages/ProduceModule.js';
 import { getToken, validateToken } from "utils/authenticate";
