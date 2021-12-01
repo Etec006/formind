@@ -226,7 +226,7 @@ class DemoNavbarDefault extends React.Component {
                         Perfil
                       </DropdownItem>
                       <DropdownItem
-                        href={`${getRedirectLink("testprod")}`}
+                        href={`${getRedirectLink("producer/test")}`}
                         
                       >
                         Virar Produtor

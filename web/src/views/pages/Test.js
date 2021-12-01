@@ -8,6 +8,7 @@ import DemoNavbarDefault from "components/Navbars/DemoNavbarDefault.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
 
 import "../../assets/css/styles-design-system.css";
+import api from "services/api";
 
 const alignImg = {
     margin: 'auto',
@@ -15,12 +16,144 @@ const alignImg = {
 };
 
 class Test extends React.Component {
-    componentDidMount() {
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-        this.refs.main.scrollTop = 0;
+    constructor(){
+        super()
+        this.state = {
+            test: {
+                questions: [
+                    {
+                        title: '', 
+                        text: '', 
+                        answers:[
+                            {
+                                id: '',
+                                test: ''
+                            }]
+                    }
+                ]
+            },
+            currentQuestion: 0,
+            answers: [],
+            currentAnswer: '',
+            currentQuestionIsAnswered: false,
+        }
     }
+
+    async componentDidMount() {
+        const subjectId = await this.props.match.params.subjectId
+        const {data} = await api.get(`test/${subjectId}`, {})
+
+        if(!data){
+            api.post('usertest', {
+                subject: subjectId
+            })
+            this.props.history.push(`/principal`);
+        }else{
+            this.setState({test: data})
+        }
+
+    }
+
+    
+
     render() {
+
+        const handleChangeAnswer = async event => {   
+            await this.setState({currentAnswer: event.target.value}) 
+        }
+
+
+        const submitTest = async () => {
+            const subjectId = await this.props.match.params.subjectId
+            const {data} = await api.post('usertest', {
+                subject: subjectId,
+                answers: this.state.answers
+            })
+            this.props.history.push(`/producer/test/result/${data.id}`);
+        }
+
+        const onChangeAnswerValue = async event => {
+            await this.setState({currentAnswer: event.target.value})
+            await this.setState({currentQuestionIsAnswered: true})
+        }
+
+        const goToNextQuestion = async () => {
+            const answers = this.state.answers
+            answers[this.state.currentQuestion] = this.state.currentAnswer
+            await this.setState({answers: answers})
+
+            if(this.state.currentQuestion + 1 < this.state.test.questions.length){
+                await this.setState({currentAnswer: ''})
+                await this.setState({currentQuestion: this.state.currentQuestion + 1})
+            }  
+        }
+
+        const goToPreviousQuestion = async () => {
+            const answers = this.state.answers
+            answers[this.state.currentQuestion] = this.state.currentAnswer
+            await this.setState({answers: answers})
+
+            if(this.state.currentQuestion > 0){
+                await this.setState({currentAnswer: ''})
+                await this.setState({currentQuestion: this.state.currentQuestion - 1})
+            }
+            
+        }
+
+        const goToQuestionByIndex = async event => {
+            const answers = this.state.answers
+            answers[this.state.currentQuestion] = this.state.currentAnswer
+            await this.setState({answers: answers})
+
+            const index = event.target.value - 1 
+            await this.setState({currentAnswer: ''})
+            await this.setState({currentQuestion: index})
+        }
+
+        const previosButton = ()=>{
+            if(this.state.currentQuestion > 0){
+                return <Button
+                    className="btn-icon btn-3 mb-lg-3 mt-lg-5 text-left"
+                    color="darker"
+                    type="button"
+                    onClick={goToPreviousQuestion}
+                >
+                    <span 
+                        className="btn-inner--text"
+                    >Questão Anterior</span>
+                </Button>
+            }
+        }
+
+        const nextButton = () => {
+            if(this.state.currentQuestion + 1 < this.state.test.questions.length){
+                return <Button
+                    className="btn-icon btn-3 mb-lg-3 mt-lg-5 text-left"
+                    color="darker"
+                    type="button"
+                    onClick={goToNextQuestion}
+                >
+                    <span 
+                        className="btn-inner--text"
+                    >Proxima questão</span>
+                </Button>
+            }else{
+                return <Button
+                className="btn-icon btn-3 mb-lg-3 mt-lg-5 text-left"
+                color="darker"
+                type="button"
+                onClick={submitTest}
+                >
+                    <span className="btn-inner--icon mr-1">
+                        <i className="ni ni-send" />
+                    </span>
+                    <span 
+                        className="btn-inner--text"
+                    >Enviar</span>
+                </Button>
+            }
+        }
+
         return (
             <>
                 <DemoNavbarDefault />
@@ -59,7 +192,7 @@ class Test extends React.Component {
                                 <div className="px-6 pt-lg-3">
                                     <div className="text-left mt-3">
                                         <h3 class="mb-0 text-darker font-weight-bold">
-                                            Questão 1
+                                            Questão {this.state.currentQuestion + 1}
                                         </h3>
 
                                         <div class="mt-3 py-5 border-bottom text-left">
@@ -67,30 +200,44 @@ class Test extends React.Component {
                                                 <strong class="font-weight-bold mr-lg-1">
                                                     (Enunciado)
                                                 </strong>
-                                                É possível afirmar que muitas expressões idiomáticas transmitidas pela cultura regional possuem autores anônimos, no entanto, algumas delas surgiram em consequência de contextos históricos bem curiosos.
+                                                {this.state.test.questions[this.state.currentQuestion]['text']}
                                             </h6>
+                                            <div 
+                                                class="text-darker"
+                                                /* onChange={onChangeAnswerValue}
+                                                value={this.state.currentAnswer} */
+                                            >
+                                                <br/>
+                                                <strong>
+                                                    {
+                                                    this.state.test.questions[this.state.currentQuestion]['answers'].map( (answer, index) => {
+                                                        let checked = this.state.currentAnswer == answer.id || this.state.answers[this.state.currentQuestion] == answer.id;
+                                                        if(this.state.answers[this.state.currentQuestion] == answer.id && this.state.currentAnswer != answer.id) this.setState({currentAnswer: this.state.answers[this.state.currentQuestion]})
+                                                        return <> 
+                                                            <div className="custom-control custom-radio mb-3">
+                                                                <input 
+                                                                    class="mb-lg-3 custom-control-input custom-radio-button" 
+                                                                    type="radio" 
+                                                                    id={`radio-${index}`}
+                                                                    value={answer.id} 
+                                                                    name={`gender`}
+                                                                    onChange={handleChangeAnswer}
+                                                                    checked={checked}
+                                                                /> 
+                                                                <label className="custom-control-label" for={`radio-${index}`}> {answer.text} </label>
+                                                            </div>
+                                                        </>
+                                                    })}
+                                                </strong>
+                                            </div>
                                         </div>
 
                                         <div class="mt-lg-5 mb-lg-5">
-                                            <div class="text-darker">
-                                                <strong>
-                                                    <input class="mb-lg-3" type="radio" value="Alternativa 1" name="gender" /> Alternativa 1 <br />
-                                                    <input class="mb-lg-3" type="radio" value="Alternativa 2" name="gender" /> Alternativa 2 <br />
-                                                    <input class="mb-lg-3" type="radio" value="Alternativa 3" name="gender" /> Alternativa 3 <br />
-                                                    <input class="mb-lg-3" type="radio" value="Alternativa 4" name="gender" /> Alternativa 4 <br />
-                                                    <input class="mb-lg-3" type="radio" value="Alternativa 5" name="gender" /> Alternativa 5 <br />
-                                                </strong>
-                                            </div>
-                                            <Button
-                                                className="btn-icon btn-3 mb-lg-3 mt-lg-5 text-left"
-                                                color="darker"
-                                                type="button"
-                                            >
-                                                <span className="btn-inner--icon mr-1">
-                                                    <i className="ni ni-send" />
-                                                </span>
-                                                <span className="btn-inner--text">Enviar Respostas</span>
-                                            </Button>
+                                            
+                                            {previosButton()}
+                                                
+                                            
+                                            {nextButton()}
                                         </div>
                                         <div class="mt-lg-5 mb-lg-5">
                                             <div class="mt-4 py-5 border-top text-left">
@@ -101,114 +248,21 @@ class Test extends React.Component {
                                                 </h6>
                                                 <div className="inlineblockdiv">
                                                     <h6 class="mt-lg-2 text-darker font-wright-400">
-                                                        <a href="test1">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">1</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="test2">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">2</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="test3">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">3</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">4</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">5</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">6</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">7</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">8</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">9</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">10</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">11</span>
-                                                            </Button>
-                                                        </a>
-                                                        <a href="#">
-                                                            <Button
-                                                                className="btn-icon btn-3 mt-lg-1"
-                                                                color="gray"
-                                                                type="button"
-                                                            >
-                                                                <span className="btn-inner--text font-weight-bolder font-italic">12</span>
-                                                            </Button>
-                                                        </a>
+                                                        {this.state.test.questions.map((question, index) => {
+                                                            return (
+                                                                <Button
+                                                                    className="btn-icon btn-3 mt-lg-1"
+                                                                    color="gray"
+                                                                    type="button"
+                                                                    onClick={goToQuestionByIndex}
+                                                                    value={index + 1}
+                                                                >
+                                                                    {index + 1}
+                                                                </Button>
+                                                            )
+                                                        }) }
+                                                        
+                                                        
                                                     </h6>
                                                 </div>
                                             </div>

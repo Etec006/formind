@@ -20,6 +20,7 @@ import classnames from "classnames";
 import DemoNavbarDefault from "components/Navbars/DemoNavbarDefault.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
 import "../../assets/css/styles-design-system.css";
+import { getRedirectLink } from "utils/get-redirect-link";
 
 const playerimg = {
   width: '40%',
@@ -101,7 +102,7 @@ class TestProd extends React.Component {
                             <span className="btn-inner--icon mr-1">
                               <i className="ni ni-badge" />
                             </span>
-                            <a href="/selectcontent" className="text-white"> <span className="btn-inner--text">Começar</span> </a>
+                            <a href={getRedirectLink("producer/test/selectcontent")} className="text-white"> <span className="btn-inner--text">Começar</span> </a>
                           </Button>
                         </div>
                       </div>

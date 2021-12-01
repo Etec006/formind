@@ -16,11 +16,12 @@ import Search from 'views/pages/Search.js';
 import Session from 'views/pages/Session.js';
 import Test from 'views/pages/Test.js';
 import TestProd from 'views/pages/TestProd.js';
-import SelectContent from 'views/pages/SelectContent.js';
+import TestSelectContent from 'views/pages/TestSelectContent.js';
 import TestCreator from 'views/pages/TestCreator.js';
 import ProducerViewModule from 'views/pages/ProducerViewModule.js';
 import ProduceModule from 'views/pages/ProduceModule.js';
 import { getToken } from "utils/authenticate";
+import TestResult from 'views/pages/TestResult';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -67,16 +68,21 @@ ReactDOM.render(
         exact
         render={props => <ProduceModule {...props} />}
       />
-      <Route path="/testprod" exact render={props => <TestProd {...props} />} />
+      <Route path="/producer/test" exact render={props => <TestProd {...props} />} />
       <Route
-        path="/selectcontent"
+        path="/producer/test/selectcontent"
         exact
-        render={props => <SelectContent {...props} />}
+        render={props => <TestSelectContent {...props} />}
       />
       <Route
-        path="/testcreator"
+        path="/producer/test/result/:testId"
         exact
-        render={props => <TestCreator {...props} />}
+        render={props => <TestResult {...props} />}
+      />
+      <Route
+        path="/producer/test/:subjectId"
+        exact
+        render={props => <Test {...props} />}
       />
       <Redirect to="/" />
     </Switch>
